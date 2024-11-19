@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<string.h>
 #include<winsock2.h>
+#include "ip.h"
 #pragma comment(lib, "ws2_32.lib")
 
 typedef struct {
@@ -69,6 +70,8 @@ int main() {
 	}
 
 	puts("Æô¶¯listen_socket¼àÌý³É¹¦£¡");
+
+
 
 	while (1) {
 		SOCKET client_socket = accept(listen_socket, NULL, NULL);  //×èÈû
