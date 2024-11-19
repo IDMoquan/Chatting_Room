@@ -3,7 +3,6 @@
 #include<string.h>
 #include<winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
-#include<iostream>
 
 typedef struct {
 	SOCKET socket;
