@@ -7,6 +7,8 @@
 #pragma comment(lib, "ws2_32.lib")
 using namespace std;
 
+char server_ip[256] = { 0 };
+
 int main() {
 	//启动服务
 	WSADATA wsaDATA;
@@ -29,19 +31,23 @@ int main() {
 	}
 	puts("创建client_socket成功");
 
-	//设置属性
-	struct sockaddr_in target;
-	target.sin_family = AF_INET;
-	target.sin_port = htons(8080);
-	target.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-	//连接服务器
-	if (connect(client_socket, (struct sockaddr*)&target, sizeof(target)) == -1) {
-		printf("连接服务器失败！！！错误代码：%d\n", GetLastError());
-		closesocket(client_socket);
-		return -1;
+	for (int i = 1; i <= 5; i++) {
+		printf("请输入IPV4地址：");
+		scanf("%s", server_ip);
+		//设置属性
+		struct sockaddr_in target;
+		target.sin_family = AF_INET;
+		target.sin_port = htons(8080);
+		target.sin_addr.s_addr = inet_addr(server_ip);
+		//连接服务器
+		if (connect(client_socket, (struct sockaddr*)&target, sizeof(target)) == -1) {
+			printf("连接服务器失败！！！错误代码：%d\n", GetLastError());
+			continue;
+		}
+		puts("连接服务器成功");
+		break;
 	}
-	puts("连接服务器成功");
 	
 	//发送ip地址
 	send(client_socket, cc_localip, sizeof(localip), 0);
