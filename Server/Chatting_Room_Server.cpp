@@ -2,8 +2,10 @@
 #include<stdio.h>
 #include<string.h>
 #include<winsock2.h>
+#include<iostream>
 #include "ip.h"
 #pragma comment(lib, "ws2_32.lib")
+using namespace std;
 
 typedef struct {
 	SOCKET socket;
@@ -70,8 +72,7 @@ int main() {
 	}
 
 	puts("启动listen_socket监听成功！");
-
-
+	cout << "服务器IP：" << getlocalip() << endl;
 
 	while (1) {
 		SOCKET client_socket = accept(listen_socket, NULL, NULL);  //阻塞
