@@ -11,21 +11,22 @@ using namespace std;
 vector<string>ips;		//存储连接至服务器的ip
 vector<string>messages;	//发送信息缓冲
 int online_poeple = 0;		//当前在线人数
-int message_number = 0;
+int message_number = 0;		//缓冲区存有消息数量
+bool status1 = true;		//是否有人正在连接
 
 typedef struct {
 	SOCKET socket;
 	char *client_ip;
 }Data;
 
-//DWORD WINAPI Send(LPVOID lpThreadParameter) {
-//	while (1) {
-//		if (!messages.empty()) {
-//
-//		}
-//	}
-//	return 0;
-//}
+DWORD WINAPI Send(LPVOID lpThreadParameter) {
+	while (1) {
+		if (!messages.empty() && status1) {
+
+		}
+	}
+	return 0;
+}
 
 DWORD WINAPI thread_func(LPVOID lpThreadParameter) {
 	//拆开结构体包装
@@ -33,6 +34,7 @@ DWORD WINAPI thread_func(LPVOID lpThreadParameter) {
 	SOCKET client_socket = data->socket;	//取出socket
 	char *client_ip = data->client_ip;		//取出client_ip
 	free(lpThreadParameter);				//释放内存
+	status1 = true;
 	while (true) {
 		//puts("555");
 		char buffer[1024] = { 0 };
@@ -99,6 +101,7 @@ int main() {
 			continue;		
 		}
 		
+		status1 = false;
 		char client_ip[256];
 
 		recv(client_socket, client_ip, 256, 0);

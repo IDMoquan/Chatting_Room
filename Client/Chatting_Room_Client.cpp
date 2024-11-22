@@ -59,16 +59,16 @@ int main() {
 			continue;
 		}
 		puts("连接服务器成功");
-		Sleep(1000);
-		system("cls");
 		break;
 	}
 	
 	//发送ip地址
 	send(client_socket, cc_localip, sizeof(localip), 0);
+	Sleep(1000);
+	system("cls");
 	printf("已连接至服务器:%s\n", server_ip);
 
-	getchar();
+	getchar();	//清空输入缓冲区回车
 	//发送信息
 	while (1) {
 		char s_buffer[1024] = { 0 };
