@@ -3,14 +3,29 @@
 #include<string.h>
 #include<winsock2.h>
 #include<iostream>
+#include<vector>
 #include "ip.h"
 #pragma comment(lib, "ws2_32.lib")
 using namespace std;
+
+vector<string>ips;		//存储连接至服务器的ip
+vector<string>messages;	//发送信息缓冲
+int online_poeple = 0;		//当前在线人数
+int message_number = 0;
 
 typedef struct {
 	SOCKET socket;
 	char *client_ip;
 }Data;
+
+//DWORD WINAPI Send(LPVOID lpThreadParameter) {
+//	while (1) {
+//		if (!messages.empty()) {
+//
+//		}
+//	}
+//	return 0;
+//}
 
 DWORD WINAPI thread_func(LPVOID lpThreadParameter) {
 	//拆开结构体包装
@@ -21,15 +36,19 @@ DWORD WINAPI thread_func(LPVOID lpThreadParameter) {
 	while (true) {
 		//puts("555");
 		char buffer[1024] = { 0 };
+		//接收消息
 		int ret = recv(client_socket, buffer, 1024, 0);
 		if (ret <= 0) {
 			break;
 		}
-		printf("%s: %s\n", client_ip, buffer);
+		message_number++;
+		messages.push_back(buffer);
+		cout << client_ip << ":" << messages.back();
 
-		send(client_socket, buffer, (int)strlen(buffer), 0);
+		//send(client_socket, buffer, (int)strlen(buffer), 0);
 	}
 	printf("%s已断开！\n", client_ip);
+	online_poeple--;
 	closesocket(client_socket);
 	return 0;
 }
@@ -84,6 +103,7 @@ int main() {
 
 		recv(client_socket, client_ip, 256, 0);
 		printf("%s已连接！\n", client_ip);
+		online_poeple++;
 
 		//开辟内存创建Data类型指针并赋值(CreateThread只能传一个参数，包装多参数至结构体)
 		Data* data = (Data*)calloc(1, sizeof(Data));

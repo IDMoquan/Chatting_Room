@@ -9,6 +9,19 @@ using namespace std;
 
 char server_ip[256] = { 0 };
 
+DWORD WINAPI receive(LPVOID lpThreadParameter) {
+	SOCKET server_socket = *(SOCKET*)lpThreadParameter;
+	char buffer[1024] = { 0 };
+	while (1) {
+		int ret = recv(server_socket, buffer, 1024, 0);
+		if (ret <= 0) {
+			break;
+		}
+		printf("%s\n", buffer);
+	}
+	return 0;
+}
+
 int main() {
 	//Æô¶¯·þÎñ
 	WSADATA wsaDATA;
@@ -66,12 +79,12 @@ int main() {
 		strcat(c_localip, s_buffer);*/
 		send(client_socket, s_buffer, (int)strlen(s_buffer), 0);
 
-		char r_buffer[1024] = { 0 };
+		/*char r_buffer[1024] = { 0 };
 		int ret = recv(client_socket, r_buffer, 1024, 0);
 		if (ret <= 0) {
 			break;
 		}
-		printf("%s\n", r_buffer);
+		printf("%s\n", r_buffer);*/
 	}
 
 	closesocket(client_socket);
