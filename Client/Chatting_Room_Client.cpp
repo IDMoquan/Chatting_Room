@@ -9,6 +9,8 @@ using namespace std;
 
 char server_ip[256] = { 0 };
 
+
+//创建接受线程
 DWORD WINAPI receive(LPVOID lpThreadParameter) {
 	SOCKET server_socket = *(SOCKET*)lpThreadParameter;
 	char buffer[1024] = { 0 };
