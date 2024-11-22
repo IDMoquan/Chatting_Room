@@ -4,14 +4,15 @@
 #include<winsock2.h>
 #include<iostream>
 #include<vector>
+#include<queue>
 #include "ip.h"
 #pragma comment(lib, "ws2_32.lib")
 using namespace std;
 
-vector<string>ips;		//存储连接至服务器的ip
-vector<string>messages;	//发送信息缓冲
-int online_poeple = 0;		//当前在线人数
-int message_number = 0;		//缓冲区存有消息数量
+vector<pair<string, SOCKET>>ips;
+queue<string>messages;	//发送信息缓冲
+//int online_poeple = 0;		//当前在线人数
+//int message_number = 0;		//缓冲区存有消息数量
 bool status1 = true;		//是否有人正在连接
 
 typedef struct {
@@ -22,7 +23,12 @@ typedef struct {
 DWORD WINAPI Send(LPVOID lpThreadParameter) {
 	while (1) {
 		if (!messages.empty() && status1) {
-
+			string temp = messages.front();
+			messages.pop();
+			for (auto ip : ips) {
+				send(ip.second, temp.c_str(), sizeof(temp), 0);
+			}
+			
 		}
 	}
 	return 0;
@@ -34,6 +40,7 @@ DWORD WINAPI thread_func(LPVOID lpThreadParameter) {
 	SOCKET client_socket = data->socket;	//取出socket
 	char *client_ip = data->client_ip;		//取出client_ip
 	free(lpThreadParameter);				//释放内存
+	ips.push_back(client_ip);
 	status1 = true;
 	while (true) {
 		//puts("555");
@@ -43,14 +50,14 @@ DWORD WINAPI thread_func(LPVOID lpThreadParameter) {
 		if (ret <= 0) {
 			break;
 		}
-		message_number++;
-		messages.push_back(buffer);
+		//message_number++;
+		messages.push(buffer);
 		cout << client_ip << ":" << messages.back();
 
 		//send(client_socket, buffer, (int)strlen(buffer), 0);
 	}
 	printf("%s已断开！\n", client_ip);
-	online_poeple--;
+	//online_poeple--;
 	closesocket(client_socket);
 	return 0;
 }
@@ -106,7 +113,7 @@ int main() {
 
 		recv(client_socket, client_ip, 256, 0);
 		printf("%s已连接！\n", client_ip);
-		online_poeple++;
+		//online_poeple++;
 
 		//开辟内存创建Data类型指针并赋值(CreateThread只能传一个参数，包装多参数至结构体)
 		Data* data = (Data*)calloc(1, sizeof(Data));

@@ -67,6 +67,7 @@ int main() {
 	Sleep(1000);
 	system("cls");
 	printf("已连接至服务器:%s\n", server_ip);
+	//CreateThread(NULL, 0, );
 
 	getchar();	//清空输入缓冲区回车
 	//发送信息
