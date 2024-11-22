@@ -56,7 +56,8 @@ int main() {
 	while (1) {
 		char s_buffer[1024] = { 0 };
 		printf("«Î ‰»Î£∫");
-		scanf("%s", s_buffer);
+		cout.flush();
+		fgets(s_buffer, sizeof(s_buffer), stdin);
 	/*	strcat(c_localip, ":");
 		strcat(c_localip, s_buffer);*/
 		send(client_socket, s_buffer, (int)strlen(s_buffer), 0);
