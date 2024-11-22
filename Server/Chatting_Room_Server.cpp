@@ -10,37 +10,43 @@
 using namespace std;
 
 vector<pair<string, SOCKET>>ips;
-queue<string>messages;	//发送信息缓冲
-//int online_poeple = 0;		//当前在线人数
-//int message_number = 0;		//缓冲区存有消息数量
+queue<string>messages;		//发送信息缓冲
+//int online_poeple = 0;	//当前在线人数
+//int message_number = 0;	//缓冲区存有消息数量
 bool status1 = true;		//是否有人正在连接
+bool status2 = true;		//是否在发送信息
 
 typedef struct {
 	SOCKET socket;
 	char *client_ip;
 }Data;
 
+//发送线程
 DWORD WINAPI Send(LPVOID lpThreadParameter) {
 	while (1) {
 		if (!messages.empty() && status1) {
 			string temp = messages.front();
 			messages.pop();
-			for (auto ip : ips) {
-				send(ip.second, temp.c_str(), sizeof(temp), 0);
-			}
+			//puts("666");
+			cout << temp << endl;
+			//for (auto ip : ips) {
+			//	while (!status2);
+			//	//send(ip.second, temp.c_str(), sizeof(temp), 0);
+			//}
 			
 		}
 	}
 	return 0;
 }
 
-DWORD WINAPI thread_func(LPVOID lpThreadParameter) {
+//接受线程
+DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 	//拆开结构体包装
 	Data* data = (Data *)lpThreadParameter;
 	SOCKET client_socket = data->socket;	//取出socket
 	char *client_ip = data->client_ip;		//取出client_ip
 	free(lpThreadParameter);				//释放内存
-	ips.push_back(client_ip);
+	ips.push_back(make_pair(client_ip, client_socket));
 	status1 = true;
 	while (true) {
 		//puts("555");
@@ -52,7 +58,8 @@ DWORD WINAPI thread_func(LPVOID lpThreadParameter) {
 		}
 		//message_number++;
 		messages.push(buffer);
-		cout << client_ip << ":" << messages.back();
+		//puts("123");
+		//cout << client_ip << ":" << buffer;
 
 		//send(client_socket, buffer, (int)strlen(buffer), 0);
 	}
@@ -101,6 +108,7 @@ int main() {
 
 	puts("启动listen_socket监听成功！");
 	cout << "服务器IP：" << getlocalip() << endl;
+	CreateThread(NULL, 0, Send, NULL, 0, NULL);
 
 	while (1) {
 		SOCKET client_socket = accept(listen_socket, NULL, NULL);  //阻塞
@@ -122,7 +130,7 @@ int main() {
 			data->socket = client_socket;
 
 			//创建线程
-			CreateThread(NULL, 0, thread_func, (LPVOID)data, 0, NULL);
+			CreateThread(NULL, 0, Receive, (LPVOID)data, 0, NULL);
 		}
 	}
 
