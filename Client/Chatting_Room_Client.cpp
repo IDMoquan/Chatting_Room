@@ -46,18 +46,22 @@ int main() {
 			continue;
 		}
 		puts("连接服务器成功");
+		Sleep(1000);
+		system("cls");
 		break;
 	}
 	
 	//发送ip地址
 	send(client_socket, cc_localip, sizeof(localip), 0);
+	printf("已连接至服务器:%s\n", server_ip);
 
+	getchar();
 	//发送信息
 	while (1) {
 		char s_buffer[1024] = { 0 };
 		printf("请输入：");
-		cout.flush();
 		fgets(s_buffer, sizeof(s_buffer), stdin);
+		//puts("输出成功");
 	/*	strcat(c_localip, ":");
 		strcat(c_localip, s_buffer);*/
 		send(client_socket, s_buffer, (int)strlen(s_buffer), 0);
