@@ -14,6 +14,7 @@
     <ClCompile Include="Connect_Server.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Regist.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Connect_Server.h" />
@@ -21,11 +22,13 @@
   <ItemGroup>
     <QtUic Include="Connect_Server.ui" />
     <QtUic Include="Login.ui" />
+    <QtUic Include="Regist.ui" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Login.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="Regist.h" />
     <ClInclude Include="variables.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
