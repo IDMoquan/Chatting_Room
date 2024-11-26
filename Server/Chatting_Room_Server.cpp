@@ -9,8 +9,6 @@
 #pragma comment(lib, "ws2_32.lib")
 using namespace std;
 
-vector<pair<string, SOCKET>>ips;
-queue<string>messages;		//发送信息缓冲
 //int online_poeple = 0;	//当前在线人数
 //int message_number = 0;	//缓冲区存有消息数量
 bool status1 = true;		//是否有人正在连接
@@ -21,18 +19,23 @@ typedef struct {
 	char *client_ip;
 }Data;
 
+vector<Data>clients;
+queue<string>messages;		//发送信息缓冲
+
+
 //发送线程
 DWORD WINAPI Send(LPVOID lpThreadParameter) {
 	while (1) {
-		if (!messages.empty() && status1) {
+		if (!messages.empty()) {
 			string temp = messages.front();
 			messages.pop();
 			//puts("666");
-			cout << temp << endl;
-			//for (auto ip : ips) {
-			//	while (!status2);
-			//	//send(ip.second, temp.c_str(), sizeof(temp), 0);
-			//}
+			cout << temp;
+			for (auto clt : clients) {
+				//while (!status2);
+				send(clt.socket, temp.c_str(), sizeof(temp), 0);
+				//cout << "send" << endl;
+			}
 			
 		}
 	}
@@ -45,8 +48,8 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 	Data* data = (Data *)lpThreadParameter;
 	SOCKET client_socket = data->socket;	//取出socket
 	char *client_ip = data->client_ip;		//取出client_ip
+	clients.push_back(*data);
 	free(lpThreadParameter);				//释放内存
-	ips.push_back(make_pair(client_ip, client_socket));
 	status1 = true;
 	while (true) {
 		//puts("555");
