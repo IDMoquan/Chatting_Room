@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Connect_Server.cpp" />
+    <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -19,6 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Connect_Server.ui" />
+    <QtUic Include="Login.ui" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="Login.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{89AD23A5-39FC-4856-8445-36E4819225A1}</ProjectGuid>

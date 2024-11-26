@@ -29,14 +29,23 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Login.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Connect_Server.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="Login.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Connect_Server.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="Login.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
