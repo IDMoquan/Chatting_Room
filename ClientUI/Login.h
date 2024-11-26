@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_Login.h"
+#include "variables.h"
 
 class Login : public QWidget
 {
@@ -10,7 +11,9 @@ class Login : public QWidget
 public:
 	Login(QWidget *parent = nullptr);
 	~Login();
-
+private slots:
+	void regist();
+	void login();
 private:
 	Ui::LoginClass ui;
 };

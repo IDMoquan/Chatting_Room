@@ -8,3 +8,11 @@ Login::Login(QWidget *parent)
 
 Login::~Login()
 {}
+
+void Login::regist(){
+
+}
+
+void Login::login() {
+	
+}

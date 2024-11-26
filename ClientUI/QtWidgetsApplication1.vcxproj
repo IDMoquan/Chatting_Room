@@ -25,6 +25,9 @@
   <ItemGroup>
     <QtMoc Include="Login.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="variables.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{89AD23A5-39FC-4856-8445-36E4819225A1}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
