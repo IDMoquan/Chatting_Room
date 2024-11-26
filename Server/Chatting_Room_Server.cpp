@@ -60,6 +60,17 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 	Data* data = (Data *)lpThreadParameter;
 	SOCKET client_socket = data->socket;	//取出socket
 	char *client_ip = data->client_ip;		//取出client_ip
+	char *input_username = (char*)malloc(256 * sizeof(char));
+	char* input_password = (char*)malloc(256 * sizeof(char));
+	for (int i = 1; i <= 5; i++) {
+		if (input_username == nullptr || input_password == nullptr) {
+			puts("char*类型指针为空！！！");
+			return -1;
+		}
+		recv(client_socket, input_username, 256, 0);
+		recv(client_socket, input_password, 256, 0);
+		
+	}
 	clients.push_back(*data);
 	free(lpThreadParameter);				//释放内存
 	status1 = true;

@@ -6,6 +6,7 @@
 #pragma comment(lib, "ws2_32.lib")
 
 std::string localip;
+SOCKET client_socket;
 
 std::string getlocalip() {
 	int ret;
@@ -30,7 +31,7 @@ void Connect_Server::ip_confirmed(){
 	QString server_ip = ui.lineEdit->text();
 	std::string s_server_ip = server_ip.toStdString();
 	const char* c_server_ip = s_server_ip.c_str();
-	SOCKET client_socket = socket(AF_INET, SOCK_STREAM, 0);
+	client_socket = socket(AF_INET, SOCK_STREAM, 0);
 	bool connect_seccess = false;	
 	//设置属性
 	struct sockaddr_in target;
