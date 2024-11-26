@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QtNetwork/QTcpSocket>
 #include "ui_Connect_Server.h"
+#include "Login.h"
 
 class Connect_Server : public QWidget
 {
@@ -15,4 +16,5 @@ private slots:
 	void ip_confirmed();
 private:
 	Ui::Connect_ServerClass ui;
+	Login window_login;
 };
