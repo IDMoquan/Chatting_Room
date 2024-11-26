@@ -8,3 +8,8 @@ Regist::Regist(QWidget *parent)
 
 Regist::~Regist()
 {}
+
+void Regist::regist_confirm() {
+	/*QString username = ui.lineEdit->text();
+	QString password = ;*/
+}

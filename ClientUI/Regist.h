@@ -11,6 +11,8 @@ public:
 	Regist(QWidget *parent = nullptr);
 	~Regist();
 
+private slots:
+	void regist_confirm();
 private:
 	Ui::RegistClass ui;
 };
