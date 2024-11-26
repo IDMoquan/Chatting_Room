@@ -24,19 +24,23 @@ queue<string>messages;		//发送信息缓冲
 
 
 //发送线程
-DWORD WINAPI Send(LPVOID lpThreadParameter) {
+DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 	while (1) {
 		if (!messages.empty()) {
-			string temp = messages.front();
-			messages.pop();
+			
 			//puts("666");
-			cout << temp;
 			for (auto clt : clients) {
+				string temp;
+				temp += clt.client_ip;
+				temp += ':';
+				temp += messages.front();
 				//while (!status2);
 				send(clt.socket, temp.c_str(), sizeof(temp), 0);
+				cout << temp;
 				//cout << "send" << endl;
 			}
 			
+			messages.pop();
 		}
 	}
 	return 0;
@@ -52,22 +56,15 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 	free(lpThreadParameter);				//释放内存
 	status1 = true;
 	while (true) {
-		//puts("555");
 		char buffer[1024] = { 0 };
 		//接收消息
 		int ret = recv(client_socket, buffer, 1024, 0);
 		if (ret <= 0) {
 			break;
 		}
-		//message_number++;
 		messages.push(buffer);
-		//puts("123");
-		//cout << client_ip << ":" << buffer;
-
-		//send(client_socket, buffer, (int)strlen(buffer), 0);
 	}
 	printf("%s已断开！\n", client_ip);
-	//online_poeple--;
 	closesocket(client_socket);
 	return 0;
 }

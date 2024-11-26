@@ -7,8 +7,7 @@
 #pragma comment(lib, "ws2_32.lib")
 using namespace std;
 
-char server_ip[256] = { 0 };
-
+char server_ip[256] = { 0 };	//存储服务器ip
 
 //创建接受线程
 DWORD WINAPI receive(LPVOID lpThreadParameter) {
@@ -16,11 +15,11 @@ DWORD WINAPI receive(LPVOID lpThreadParameter) {
 	char buffer[1024] = { 0 };
 	while (1) {
 		//puts("waiting");
-		int ret = recv(server_socket, buffer, 1024, 0);
+		int ret = recv(server_socket, buffer, 1024, 0);		//接收服务端分发的消息
 		if (ret <= 0) {
 			break;
 		}
-		cout << buffer;
+		cout << buffer;				//输出消息
 	}
 	return 0;
 }
@@ -35,9 +34,9 @@ int main() {
 	puts("WSA服务启动成功");
 
 	//获取本机ip并转化为char*类型
-	string localip = getlocalip();
-	const char* cc_localip = localip.c_str();
-	char* c_localip = const_cast<char*>(cc_localip);
+	string localip = getlocalip();						//本机ip(char *)类型
+	const char* cc_localip = localip.c_str();			//本机ip(const char *)类型
+	char* c_localip = const_cast<char*>(cc_localip);	//本机ip(char *)类型
 
 	//创建Socket
 	SOCKET client_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -47,7 +46,8 @@ int main() {
 	}
 	puts("创建client_socket成功");
 
-
+	bool connect_seccess = false;
+	//输入五次没成功就停止
 	for (int i = 1; i <= 5; i++) {
 		printf("请输入IPV4地址：");
 		scanf("%s", server_ip);
@@ -62,13 +62,17 @@ int main() {
 			continue;
 		}
 		puts("连接服务器成功");
+		connect_seccess = true;
 		break;
 	}
-	
-	//发送ip地址
+	if (connect_seccess == false) {
+		return -1;
+	}
+
+	//向服务器发送ip地址
 	send(client_socket, cc_localip, sizeof(localip), 0);
 	Sleep(1000);
-	system("cls");
+	system("cls");	//清屏
 	printf("已连接至服务器:%s\n", server_ip);
 	CreateThread(NULL, 0, receive, (LPVOID *)&client_socket, 0, NULL);
 
@@ -76,19 +80,8 @@ int main() {
 	//发送信息
 	while (1) {
 		char s_buffer[1024] = { 0 };
-		//printf("请输入：");
-		fgets(s_buffer, sizeof(s_buffer), stdin);
-		//puts("输出成功");
-	/*	strcat(c_localip, ":");
-		strcat(c_localip, s_buffer);*/
+		fgets(s_buffer, sizeof(s_buffer), stdin);	//输入
 		send(client_socket, s_buffer, (int)strlen(s_buffer), 0);
-
-		/*char r_buffer[1024] = { 0 };
-		int ret = recv(client_socket, r_buffer, 1024, 0);
-		if (ret <= 0) {
-			break;
-		}
-		printf("%s\n", r_buffer);*/
 	}
 
 	closesocket(client_socket);
