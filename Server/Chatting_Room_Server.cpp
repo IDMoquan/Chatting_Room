@@ -9,8 +9,10 @@
 #pragma comment(lib, "ws2_32.lib")
 using namespace std;
 
-//int online_poeple = 0;	//当前在线人数
-//int message_number = 0;	//缓冲区存有消息数量
+vector<pair<string, SOCKET>>ips;
+queue<string>messages;	//发送信息缓冲
+//int online_poeple = 0;		//当前在线人数
+//int message_number = 0;		//缓冲区存有消息数量
 bool status1 = true;		//是否有人正在连接
 bool status2 = true;		//是否在发送信息
 
