@@ -1,4 +1,4 @@
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
+ï»¿#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include<stdio.h>
 #include<string.h>
 #include<winsock2.h>
@@ -9,10 +9,10 @@
 #pragma comment(lib, "ws2_32.lib")
 using namespace std;
 
-//int online_poeple = 0;		//µ±Ç°ÔÚÏßÈËÊı
-//int message_number = 0;		//»º³åÇø´æÓĞÏûÏ¢ÊıÁ¿
-bool status1 = true;		//ÊÇ·ñÓĞÈËÕıÔÚÁ¬½Ó
-bool status2 = true;		//ÊÇ·ñÔÚ·¢ËÍĞÅÏ¢
+//int online_poeple = 0;		//å½“å‰åœ¨çº¿äººæ•°
+//int message_number = 0;		//ç¼“å†²åŒºå­˜æœ‰æ¶ˆæ¯æ•°é‡
+bool status1 = true;		//æ˜¯å¦æœ‰äººæ­£åœ¨è¿æ¥
+bool status2 = true;		//æ˜¯å¦åœ¨å‘é€ä¿¡æ¯
 
 typedef struct {
 	SOCKET socket;
@@ -26,14 +26,14 @@ typedef struct {
 }Messages;
 
 vector<Data>clients;
-queue<Messages>messages;		//·¢ËÍĞÅÏ¢»º³å
+queue<Messages>messages;		//å‘é€ä¿¡æ¯ç¼“å†²
 
 
-//·¢ËÍÏß³Ì
+//å‘é€çº¿ç¨‹
 DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 	while (1) {
 		if (!messages.empty()) {
-			//Ïò·Ç·Ö·¢ĞÅÏ¢µÄ¿Í»§¶Ë·¢ËÍÏûÏ¢»º³å³ØµÄÏûÏ¢
+			//å‘éåˆ†å‘ä¿¡æ¯çš„å®¢æˆ·ç«¯å‘é€æ¶ˆæ¯ç¼“å†²æ± çš„æ¶ˆæ¯
 			for (auto clt : clients) {
 				if (messages.front().sender_socket == clt.socket) {
 					continue;
@@ -54,18 +54,18 @@ DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 	return 0;
 }
 
-//½ÓÊÜÏß³Ì
+//æ¥å—çº¿ç¨‹
 DWORD WINAPI Receive(LPVOID lpThreadParameter) {
-	//²ğ¿ª½á¹¹Ìå°ü×°
+	//æ‹†å¼€ç»“æ„ä½“åŒ…è£…
 	Data* data = (Data *)lpThreadParameter;
-	SOCKET client_socket = data->socket;	//È¡³ösocket
-	char *client_ip = data->client_ip;		//È¡³öclient_ip
+	SOCKET client_socket = data->socket;	//å–å‡ºsocket
+	char *client_ip = data->client_ip;		//å–å‡ºclient_ip
 	clients.push_back(*data);
-	free(lpThreadParameter);				//ÊÍ·ÅÄÚ´æ
+	free(lpThreadParameter);				//é‡Šæ”¾å†…å­˜
 	status1 = true;
 	while (true) {
 		char buffer[1024] = { 0 };
-		//½ÓÊÕÏûÏ¢
+		//æ¥æ”¶æ¶ˆæ¯
 		int ret = recv(client_socket, buffer, 1024, 0);
 		if (ret <= 0) {
 			break;
@@ -76,72 +76,72 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 		temp.sender_socket = client_socket;
 		messages.push(temp);
 	}
-	printf("%sÒÑ¶Ï¿ª£¡\n", client_ip);
+	printf("%så·²æ–­å¼€ï¼\n", client_ip);
 	closesocket(client_socket);
 	return 0;
 }
 
 int main() {
-	//Æô¶¯·şÎñ
+	//å¯åŠ¨æœåŠ¡
 	WSADATA wsaDATA;
 	if (WSAStartup(MAKEWORD(2, 2), &wsaDATA) != 0) {
-		printf("WSA·şÎñÆô¶¯Ê§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
+		printf("WSAæœåŠ¡å¯åŠ¨å¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
 		return -1;
 	}
 
-	puts("WSA·şÎñÆô¶¯³É¹¦£¡");
+	puts("WSAæœåŠ¡å¯åŠ¨æˆåŠŸï¼");
 	
-	//´´½¨socket
+	//åˆ›å»ºsocket
 	SOCKET listen_socket = socket(AF_INET, SOCK_STREAM, 0);
 	if (listen_socket == INVALID_SOCKET) {
-		printf("´´½¨listen_socketÊ§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
+		printf("åˆ›å»ºlisten_socketå¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
 		return -1;
 	}
 	
-	puts("´´½¨listen_socket³É¹¦£¡");
+	puts("åˆ›å»ºlisten_socketæˆåŠŸï¼");
 
-	//ÉèÖÃÊôĞÔ
+	//è®¾ç½®å±æ€§
 	struct sockaddr_in local = { 0 };
 	local.sin_family = AF_INET;
 	local.sin_port = htons(8080);
 	local.sin_addr.s_addr = inet_addr("0.0.0.0");
-	//°ó¶¨¶Ë¿Ú
+	//ç»‘å®šç«¯å£
 	if (bind(listen_socket, (struct sockaddr*)&local, sizeof(local)) == -1) {
-		printf("°ó¶¨SocketÊ§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
+		printf("ç»‘å®šSocketå¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
 		return -1;
 	}
-	puts("°ó¶¨Socket³É¹¦£¡");
+	puts("ç»‘å®šSocketæˆåŠŸï¼");
 	
-	//Æô¶¯¼àÌı
+	//å¯åŠ¨ç›‘å¬
 	if (listen(listen_socket, 10) == -1) {
-		printf("Æô¶¯listen_socket¼àÌıÊ§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
+		printf("å¯åŠ¨listen_socketç›‘å¬å¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
 		return -1;
 	}
 
-	puts("Æô¶¯listen_socket¼àÌı³É¹¦£¡");
-	cout << "·şÎñÆ÷IP£º" << getlocalip() << endl;
+	puts("å¯åŠ¨listen_socketç›‘å¬æˆåŠŸï¼");
+	cout << "æœåŠ¡å™¨IPï¼š" << getlocalip() << endl;
 	CreateThread(NULL, 0, Send, NULL, 0, NULL);
 
 	while (1) {
-		SOCKET client_socket = accept(listen_socket, NULL, NULL);  //×èÈû
+		SOCKET client_socket = accept(listen_socket, NULL, NULL);  //é˜»å¡
 		if (client_socket == INVALID_SOCKET) {
 			continue;		
 		}
 		
 		status1 = false;
-		char client_ip[256];
+		char client_ip[1024];
 
-		recv(client_socket, client_ip, 256, 0);
-		printf("%sÒÑÁ¬½Ó£¡\n", client_ip);
+		recv(client_socket, client_ip,256, 0);
+		printf("%så·²è¿æ¥ï¼\n", client_ip);
 		//online_poeple++;
 
-		//¿ª±ÙÄÚ´æ´´½¨DataÀàĞÍÖ¸Õë²¢¸³Öµ(CreateThreadÖ»ÄÜ´«Ò»¸ö²ÎÊı£¬°ü×°¶à²ÎÊıÖÁ½á¹¹Ìå)
+		//å¼€è¾Ÿå†…å­˜åˆ›å»ºDataç±»å‹æŒ‡é’ˆå¹¶èµ‹å€¼(CreateThreadåªèƒ½ä¼ ä¸€ä¸ªå‚æ•°ï¼ŒåŒ…è£…å¤šå‚æ•°è‡³ç»“æ„ä½“)
 		Data* data = (Data*)calloc(1, sizeof(Data));
 		if (data != NULL) {
 			data->client_ip = client_ip;
 			data->socket = client_socket;
 
-			//´´½¨Ïß³Ì
+			//åˆ›å»ºçº¿ç¨‹
 			CreateThread(NULL, 0, Receive, (LPVOID)data, 0, NULL);
 		}
 	}

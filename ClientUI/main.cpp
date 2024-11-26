@@ -1,10 +1,12 @@
-#include "QtWidgetsApplication1.h"
+#include <stdio.h>
+#include "Connect_Server.h"
 #include <QtWidgets/QApplication>
 
-int main(int argc, char *argv[])
+using namespace std;
+int main(int argc, char* argv[])
 {
-    QApplication a(argc, argv);
-    QtWidgetsApplication1 w;
-    w.show();
-    return a.exec();
+	QApplication a(argc, argv);
+	Connect_Server w;
+	w.show();
+	return a.exec();
 }
