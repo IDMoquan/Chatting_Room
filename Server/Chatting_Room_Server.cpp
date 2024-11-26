@@ -19,24 +19,36 @@ typedef struct {
 	char *client_ip;
 }Data;
 
+typedef struct {
+	SOCKET sender_socket;
+	char* client_ip;
+	string message;
+}Messages;
+
 vector<Data>clients;
-queue<string>messages;		//发送信息缓冲
+queue<Messages>messages;		//发送信息缓冲
 
 
 //发送线程
-DWORD WINAPI Send(LPVOID lpThreadParameter) {
+DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 	while (1) {
 		if (!messages.empty()) {
-			string temp = messages.front();
-			messages.pop();
-			//puts("666");
-			cout << temp;
+			//向非分发信息的客户端发送消息缓冲池的消息
 			for (auto clt : clients) {
+				if (messages.front().sender_socket == clt.socket) {
+					continue;
+				}
+				string temp;
+				temp += clt.client_ip;
+				temp += ':';
+				temp += messages.front().message;
 				//while (!status2);
 				send(clt.socket, temp.c_str(), sizeof(temp), 0);
+				cout << temp;
 				//cout << "send" << endl;
 			}
 			
+			messages.pop();
 		}
 	}
 	return 0;
@@ -52,22 +64,19 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 	free(lpThreadParameter);				//释放内存
 	status1 = true;
 	while (true) {
-		//puts("555");
 		char buffer[1024] = { 0 };
 		//接收消息
 		int ret = recv(client_socket, buffer, 1024, 0);
 		if (ret <= 0) {
 			break;
 		}
-		//message_number++;
-		messages.push(buffer);
-		//puts("123");
-		//cout << client_ip << ":" << buffer;
-
-		//send(client_socket, buffer, (int)strlen(buffer), 0);
+		Messages temp;
+		temp.client_ip = client_ip;
+		temp.message = buffer;
+		temp.sender_socket = client_socket;
+		messages.push(temp);
 	}
 	printf("%s已断开！\n", client_ip);
-	//online_poeple--;
 	closesocket(client_socket);
 	return 0;
 }
