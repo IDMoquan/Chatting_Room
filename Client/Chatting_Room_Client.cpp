@@ -15,11 +15,12 @@ DWORD WINAPI receive(LPVOID lpThreadParameter) {
 	SOCKET server_socket = *(SOCKET*)lpThreadParameter;
 	char buffer[1024] = { 0 };
 	while (1) {
+		//puts("waiting");
 		int ret = recv(server_socket, buffer, 1024, 0);
 		if (ret <= 0) {
 			break;
 		}
-		printf("%s\n", buffer);
+		cout << buffer;
 	}
 	return 0;
 }
@@ -69,13 +70,13 @@ int main() {
 	Sleep(1000);
 	system("cls");
 	printf("已连接至服务器:%s\n", server_ip);
-	//CreateThread(NULL, 0, );
+	CreateThread(NULL, 0, receive, (LPVOID *)&client_socket, 0, NULL);
 
 	getchar();	//清空输入缓冲区回车
 	//发送信息
 	while (1) {
 		char s_buffer[1024] = { 0 };
-		printf("请输入：");
+		//printf("请输入：");
 		fgets(s_buffer, sizeof(s_buffer), stdin);
 		//puts("输出成功");
 	/*	strcat(c_localip, ":");
