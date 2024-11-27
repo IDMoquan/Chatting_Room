@@ -93,5 +93,25 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>LoginClass</receiver>
+   <slot>regist()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>482</x>
+     <y>206</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>586</x>
+     <y>338</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>regist()</slot>
+ </slots>
 </ui>
