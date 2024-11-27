@@ -69,7 +69,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 		}
 		recv(client_socket, input_username, 256, 0);
 		recv(client_socket, input_password, 256, 0);
-		
+		printf("username:%s\npassword:%s\n", input_username, input_password);
 	}
 	clients.push_back(*data);
 	free(lpThreadParameter);				//释放内存
@@ -142,7 +142,7 @@ int main() {
 		status1 = false;
 		char client_ip[1024];
 
-		recv(client_socket, client_ip,256, 0);
+		recv(client_socket, client_ip, 256, 0);
 		printf("%s已连接！\n", client_ip);
 		//online_poeple++;
 

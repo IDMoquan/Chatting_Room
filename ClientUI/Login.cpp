@@ -6,7 +6,7 @@ Login::Login(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-	connect(ui.pushButton_2, SIGNAL(clicked()), this, SLOT(regist()));
+	//connect(ui.pushButton_2, SIGNAL(clicked()), this, SLOT(regist()));
 }
 
 Login::~Login()
@@ -17,7 +17,7 @@ void Login::regist(){
 		window_regist.show();
 	}
 	else {
-		MessageBox(NULL, "注册窗口已经开启！", NULL, MB_OK);
+		MessageBox(NULL, L"注册窗口已经开启！", NULL, MB_OK);
 	}
 }
 
