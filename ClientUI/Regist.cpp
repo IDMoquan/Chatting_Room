@@ -21,9 +21,9 @@ Regist::~Regist()
 {}
 
 void Regist::closeEvent(QCloseEvent* event) {
-	const char* ext = "exit";
+	//const char* ext = "exit";
 	const char* status = "login";
-	send(client_socket, ext, 256, 0);
+	send(client_socket, status, 256, 0);
 	//send(client_socket, status, 256, 0);
 	event->accept();
 }
@@ -49,8 +49,8 @@ void Regist::regist_confirm() {
 	//LPCWSTR lpWideString = wideString;
 	//MessageBox(NULL, lpWideString, L"Error!", MB_OK);
 	//delete[] wideString;
-	if (!strcmp("accept", back_info)) {
-		MessageBox(NULL, L"accept", L"Error!", MB_OK);
-	}
+	//if (!strcmp("accept", back_info)) {
+	//	MessageBox(NULL, L"accept", L"Error!", MB_OK);
+	//}
 	this->close();
 }
