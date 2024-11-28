@@ -7,6 +7,7 @@
 
 std::string localip;
 SOCKET client_socket;
+const char* status = "login";
 
 std::string getlocalip() {
 	int ret;
@@ -44,5 +45,6 @@ void Connect_Server::ip_confirmed(){
 	}
 	send(client_socket, localip.c_str(), 256, 0);
 	window_login.show();
+	send(client_socket, status, 256, 0);
 	this->close();
 }
