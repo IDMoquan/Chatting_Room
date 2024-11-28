@@ -5,6 +5,7 @@
 #include<iostream>
 #include<vector>
 #include<queue>
+#include<algorithm>
 #include "ip.h"
 #pragma comment(lib, "ws2_32.lib")
 using namespace std;
@@ -28,10 +29,24 @@ typedef struct {
 vector<Data>clients;
 queue<Messages>messages;		//发送信息缓冲
 
+void remove_client(SOCKET target_socket) {
+	clients.erase(
+		remove_if(clients.begin(), clients.end(), 
+			[&target_socket](const Data& s) {
+				return target_socket == s.socket; 
+			}), clients.end()
+	);
+}
+
 
 //发送线程
 DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 	while (1) {
+		for (int i = 0; i < clients.size(); i++) {
+			cout << clients[i].client_ip << " ";
+		}
+		cout << "end" << endl;
+		Sleep(100);
 		if (!messages.empty()) {
 			//向非分发信息的客户端发送消息缓冲池的消息
 			for (auto clt : clients) {
@@ -54,8 +69,8 @@ DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 	return 0;
 }
 
-bool check_data(char* username, char* password) {
-
+string check_data(char* username, char* password) {
+	return "accept";
 }
 
 //接受线程
@@ -66,19 +81,39 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 	char *client_ip = data->client_ip;		//取出client_ip
 	char *input_username = (char*)malloc(256 * sizeof(char));
 	char* input_password = (char*)malloc(256 * sizeof(char));
+	free(lpThreadParameter);				//释放内存
 	for (int i = 1; i <= 5; i++) {
 		if (input_username == nullptr || input_password == nullptr) {
 			puts("char*类型指针为空！！！");
 			return -1;
 		}
-		recv(client_socket, input_username, 256, 0);
-		recv(client_socket, input_password, 256, 0);
+		int ret = recv(client_socket, input_username, 256, 0);
+		if (ret <= 0) {
+			printf("%s已断开！\n", client_ip);
+			closesocket(client_socket);
+			return -1;
+		}
+		ret = recv(client_socket, input_password, 256, 0);
+		if (ret <= 0) {
+			printf("%s已断开！\n", client_ip);
+			closesocket(client_socket);
+			return -1;
+		}
 		printf("username:%s\npassword:%s\n", input_username, input_password);
 		//从数据库检查用户信息
-		check_data(input_username, input_password);
+		string check = check_data(input_username, input_password);
+		ret = send(client_socket, check.c_str(), 256, 0);
+		if (ret <= 0) {
+			printf("%s已断开！\n", client_ip);
+			closesocket(client_socket);
+			return -1;
+		}
+		if (check == "accept") {
+			printf("%s登录成功！\n", client_ip);
+			break;
+		}
 	}
 	clients.push_back(*data);
-	free(lpThreadParameter);				//释放内存
 	status1 = true;
 	while (true) {
 		char buffer[1024] = { 0 };
@@ -94,6 +129,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 		messages.push(temp);
 	}
 	printf("%s已断开！\n", client_ip);
+
 	closesocket(client_socket);
 	return 0;
 }
