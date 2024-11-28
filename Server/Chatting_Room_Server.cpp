@@ -54,6 +54,10 @@ DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 	return 0;
 }
 
+bool check_data(char* username, char* password) {
+
+}
+
 //接受线程
 DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 	//拆开结构体包装
@@ -70,6 +74,8 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 		recv(client_socket, input_username, 256, 0);
 		recv(client_socket, input_password, 256, 0);
 		printf("username:%s\npassword:%s\n", input_username, input_password);
+		//从数据库检查用户信息
+		check_data(input_username, input_password);
 	}
 	clients.push_back(*data);
 	free(lpThreadParameter);				//释放内存
