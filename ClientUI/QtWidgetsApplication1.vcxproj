@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="chatpage.cpp" />
     <ClCompile Include="Connect_Server.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="main.cpp" />
@@ -20,6 +21,7 @@
     <QtMoc Include="Connect_Server.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="chatpage.ui" />
     <QtUic Include="Connect_Server.ui" />
     <QtUic Include="Login.ui" />
     <QtUic Include="Regist.ui" />
@@ -29,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Regist.h" />
+    <QtMoc Include="chatpage.h" />
     <ClInclude Include="variables.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
