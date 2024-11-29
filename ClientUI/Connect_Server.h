@@ -4,7 +4,7 @@
 #include <QtNetwork/QTcpSocket>
 #include "ui_Connect_Server.h"
 #include "Login.h"
-#include "variables.h"
+#include "Functions.h"
 
 class Connect_Server : public QWidget
 {

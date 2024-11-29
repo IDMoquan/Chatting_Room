@@ -32,7 +32,7 @@
   <ItemGroup>
     <QtMoc Include="Regist.h" />
     <QtMoc Include="chatpage.h" />
-    <ClInclude Include="variables.h" />
+    <ClInclude Include="Functions.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{89AD23A5-39FC-4856-8445-36E4819225A1}</ProjectGuid>

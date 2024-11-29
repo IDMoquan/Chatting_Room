@@ -90,8 +90,8 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 	Data data = *(Data *)lpThreadParameter;
 	SOCKET client_socket = data.socket;	//取出socket
 	char *client_ip = data.client_ip;		//取出client_ip
-	char *input_username = (char*)malloc(256 * sizeof(char));	
-	char* input_password = (char*)malloc(256 * sizeof(char));
+	char *input_username = (char*)malloc(1024 * sizeof(char));	
+	char* input_password = (char*)malloc(1024 * sizeof(char));
 	char* status = (char*)malloc(256 * sizeof(char));
 	delete(lpThreadParameter);				//释放内存
 	if (status == nullptr) {
@@ -119,7 +119,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 					puts("char*类型指针为空！！！");
 					return -1;
 				}
-				ret = recv(client_socket, input_username, 256, 0);
+				ret = recv(client_socket, input_username, 1024, 0);
 				if (ret <= 0) {
 					free(input_username);
 					free(input_password);
@@ -133,7 +133,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 					strcpy(status, "regist");
 					break;
 				}
-				ret = recv(client_socket, input_password, 256, 0);
+				ret = recv(client_socket, input_password, 1024, 0);
 				if (ret <= 0) {
 					free(input_username);
 					free(input_password);

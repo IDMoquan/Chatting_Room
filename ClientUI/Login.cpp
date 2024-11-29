@@ -2,7 +2,7 @@
 
 int reg_window_count = 0;
 extern SOCKET client_socket;
-
+extern std::string Utf8ToGbk(const std::string& utf8Str);
 
 Login::Login(QWidget *parent)
 	: QWidget(parent)
@@ -28,18 +28,20 @@ void Login::regist(){
 void Login::login() {
 	//MessageBox(NULL, L"登录！", NULL, MB_OK);
 	QString qusername, qpassword;
-	std::string s_username, s_password;
+	std::string s_username, s_password, gs_username, gs_password;
 	const char* username, * password;
 	char back_info[256];
 	qusername = ui.lineEdit->text();
 	qpassword = ui.lineEdit_2->text();
 	s_username = qusername.toStdString();
 	s_password = qpassword.toStdString();
-	username = s_username.c_str();
-	password = s_password.c_str();
+	gs_username = Utf8ToGbk(s_username);
+	gs_password = Utf8ToGbk(s_password);
+	username = gs_username.c_str();
+	password = gs_password.c_str();
 	//发送用户名密码
-	::send(client_socket, username, 256, 0);
-	::send(client_socket, password, 256, 0);
+	::send(client_socket, username, 1024, 0);
+	::send(client_socket, password, 1024, 0);
 	//接收返回信息
 	recv(client_socket, back_info, 256, 0);
 	//登陆成功

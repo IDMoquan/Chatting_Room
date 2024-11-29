@@ -1,5 +1,4 @@
 ﻿#include "Regist.h"
-#include "variables.h"
 #include<WinSock2.h>
 #include<cwchar>
 #include<cstring>

@@ -1,13 +1,30 @@
 ﻿#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS 1
 #include "Connect_Server.h"
-#include "variables.h"
 #include <winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
 
 std::string localip;
 SOCKET client_socket;
 const char* status = "login";
+
+std::string Utf8ToGbk(const std::string& utf8Str) {
+	// 首先计算需要的宽字符串长度
+	int wideLength = MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, nullptr, 0);
+	std::vector<wchar_t> wideStr(wideLength);
+
+	// 将UTF-8转换为宽字符串
+	MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, &wideStr[0], wideLength);
+
+	// 计算GBK字符串长度
+	int gbkLength = WideCharToMultiByte(CP_ACP, 0, &wideStr[0], -1, nullptr, 0, nullptr, nullptr);
+	std::vector<char> gbkStr(gbkLength);
+
+	// 将宽字符串转换为GBK字符串
+	WideCharToMultiByte(CP_ACP, 0, &wideStr[0], -1, &gbkStr[0], gbkLength, nullptr, nullptr);
+
+	return std::string(gbkStr.begin(), gbkStr.end() - 1); // 减去末尾的空字符
+}
 
 std::string getlocalip() {
 	int ret;
@@ -43,7 +60,7 @@ void Connect_Server::ip_confirmed(){
 	if (::connect(client_socket, (struct sockaddr*)&target, sizeof(target)) == -1) {
 		return;
 	}
-	send(client_socket, localip.c_str(), 256, 0);
+	send(client_socket, Utf8ToGbk(localip).c_str(), 256, 0);
 	window_login.show();
 	send(client_socket, status, 256, 0);
 	this->close();

@@ -2,7 +2,7 @@
 
 #include <QWidget>
 #include "ui_Login.h"
-#include "variables.h"
+#include "Functions.h"
 #include "Regist.h"
 #include "chatpage.h"
 
