@@ -72,12 +72,12 @@ DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 	return 0;
 }
 
-//登录验证
+//登录验证(*)
 string check_data_login(char* username, char* password) {
 	return "accept";	//测试数据
 }
 
-//注册验证
+//注册验证(*)
 string check_data_regist(char* username) {
 	return "accept";	//测试数据
 }
@@ -129,7 +129,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 				}
 				if (!strcmp(input_username, "regist")) {
 					strcpy(status, "regist");
-					continue;
+					break;
 				}
 				ret = recv(client_socket, input_password, 256, 0);
 				if (ret <= 0) {
@@ -214,6 +214,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 			}
 			if (check == "accept") {
 				printf("%s注册成功！用户名：%s\n", client_ip, input_username);
+				recv(client_socket, input_username, 256, 0);
 				strcpy(status, "login");
 			}
 		}

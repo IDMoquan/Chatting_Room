@@ -32,9 +32,9 @@ void Regist::regist_confirm() {
 	//分布转化，不然会指向已销毁实例
 	qusername = ui.lineEdit->text();
 	qpassword = ui.lineEdit_2->text();
-	std::wstring ws_username = qusername.toStdWString();
-	LPCWSTR M_username = ws_username.c_str();
-	MessageBox(NULL, M_username, L"Error!", MB_OK);
+	//std::wstring ws_username = qusername.toStdWString();
+	//LPCWSTR M_username = ws_username.c_str();
+	//MessageBox(NULL, M_username, L"Error!", MB_OK);
 	s_username = qusername.toStdString();
 	s_password = qpassword.toStdString();
 	username = s_username.c_str();
