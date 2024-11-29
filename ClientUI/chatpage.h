@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include "ui_chatpage.h"
+//#include "Login.h"
 
 class chatpage : public QWidget
 {
@@ -10,7 +11,9 @@ class chatpage : public QWidget
 public:
 	chatpage(QWidget *parent = nullptr);
 	~chatpage();
-
+private slots:
+	void sendinfor();
+	void cleanup();
 private:
 	Ui::chatpageClass ui;
 };
