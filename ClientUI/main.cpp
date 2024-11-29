@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include "Connect_Server.h"
 #include "Login.h"
 #include <QtWidgets/QApplication>
@@ -11,7 +11,10 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	WSADATA wsaDATA;
-	WSAStartup(MAKEWORD(2, 2), &wsaDATA);
+	if (WSAStartup(MAKEWORD(2, 2), &wsaDATA) == -1) {
+		MessageBox(NULL, L"WSA启动失败！", NULL, MB_OK);
+		return -1;
+	}
 	QApplication a(argc, argv);
 	Connect_Server w;
 	w.show();

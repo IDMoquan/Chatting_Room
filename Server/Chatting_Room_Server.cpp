@@ -158,6 +158,8 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 					printf("%s登录成功！\n", client_ip);
 					login_success = true;
 					strcpy(data.username, input_username);
+					const char* back_info = "accept";
+					send(client_socket, back_info, 256, 0);
 					break;
 				}
 			}
