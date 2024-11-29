@@ -4,6 +4,7 @@
 #include "ui_Login.h"
 #include "variables.h"
 #include "Regist.h"
+#include "chatpage.h"
 
 class Login : public QWidget
 {
@@ -18,4 +19,5 @@ private slots:
 private:
 	Ui::LoginClass ui;
 	Regist window_regist;
+	chatpage window_chat;
 };

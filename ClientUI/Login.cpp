@@ -44,6 +44,7 @@ void Login::login() {
 	recv(client_socket, back_info, 256, 0);
 	//登陆成功
 	if (!strcmp(back_info, "accept")) {
+		window_chat.show();
 		this->close();
 		MessageBox(NULL, L"登录成功！", NULL, MB_OK);
 	}

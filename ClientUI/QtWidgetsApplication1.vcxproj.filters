@@ -35,6 +35,9 @@
     <ClCompile Include="Regist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="chatpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Connect_Server.h">
@@ -46,6 +49,9 @@
     <QtMoc Include="Regist.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="chatpage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="Connect_Server.ui">
@@ -55,6 +61,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="Regist.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="chatpage.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
