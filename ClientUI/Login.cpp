@@ -47,7 +47,7 @@ void Login::login() {
 	//登陆成功
 	if (!strcmp(back_info, "accept")) {
 		window_chat.show();
-		MessageBox(NULL, L"登录成功！", NULL, MB_OK);
+		//MessageBox(NULL, L"登录成功！", NULL, MB_OK);
 		this->close();
 	}
 	else {

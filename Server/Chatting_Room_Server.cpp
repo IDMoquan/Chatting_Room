@@ -54,6 +54,8 @@ DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 		//Sleep(1000);
 		if (!messages.empty()) {
 			//向非分发信息的客户端发送消息缓冲池的消息
+			status1 = false;
+			cout << "分发消息至:[";
 			for (auto& clt : clients) {
 				if (messages.front().sender_socket == clt.socket) {
 					continue;
@@ -62,12 +64,14 @@ DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 				temp.append(clt.username);
 				temp.append(":");
 				temp.append(messages.front().message);
-				//while (!status2);
+				while (!status2);
 				send(clt.socket, temp.c_str(), sizeof(temp), 0);
-				cout << temp;
+				cout << clt.socket << " ";
+				//cout << temp;
 				//cout << "send" << endl;
 			}
-			
+			cout << "]" << endl;
+			status1 = true;
 			messages.pop();
 		}
 	}
@@ -241,8 +245,10 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 		temp.message = buffer;
 		temp.sender_socket = client_socket;
 		temp.username = data.username;
+		cout << temp.username << "(" << temp.sender_socket << ")" << ":" << temp.message << endl;
 		messages.push(temp);
-		cout << temp.username << ":" << temp.message << endl;
+		status2 = true;
+		//while (!status1);
 	}
 	printf("%s已断开！\n", client_ip);
 	remove_client(client_socket);
