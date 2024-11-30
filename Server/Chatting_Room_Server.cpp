@@ -83,11 +83,15 @@ DWORD WINAPI Send(LPVOID lpThreadParameter)	 {
 //登录验证(*)
 string check_data_login(char* username, char* password) {
 	return "accept";	//测试数据
+
+	
 }
 
 //注册验证(*)
 string check_data_regist(char* username) {
 	return "accept";	//测试数据
+
+
 }
 
 //接受线程
