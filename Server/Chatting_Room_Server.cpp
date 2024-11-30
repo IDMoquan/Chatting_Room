@@ -17,13 +17,14 @@ using namespace std;
 bool status1 = true;		//是否有人正在连接
 bool status2 = true;		//是否在发送信息
 
-//数据
+//存放输入数据
 typedef struct {
 	SOCKET socket;
 	char* client_ip;
 	char username[256];
 }Data;
 
+//输入信息
 typedef struct {
 	SOCKET sender_socket;
 	char* client_ip;
