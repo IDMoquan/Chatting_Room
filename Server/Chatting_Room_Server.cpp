@@ -17,6 +17,7 @@ using namespace std;
 bool status1 = true;		//是否有人正在连接
 bool status2 = true;		//是否在发送信息
 
+//数据
 typedef struct {
 	SOCKET socket;
 	char* client_ip;
