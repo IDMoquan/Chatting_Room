@@ -15,10 +15,13 @@ QStringList list;
 
 extern std::string Utf8ToGbk(const std::string& utf8Str);
 
+
+
 //接收服务器分发消息
-DWORD WINAPI Receive(LPVOID lpThreadParameter) {
+DWORD WINAPI Receive_message(LPVOID lpThreadParameter) {
 	QListView* message_list = (QListView*)lpThreadParameter;
 	message_list->setSpacing(5);
+	message_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	while (connect_status);
 	while (1) {
 		char buffer[1024] = { 0 };
@@ -39,7 +42,7 @@ chatpage::chatpage(QWidget* parent)
 {
 	ui.setupUi(this);
 	//创建接收线程
-	CreateThread(NULL, 0, Receive, (LPVOID)ui.listView, 0, NULL);
+	CreateThread(NULL, 0, Receive_message, (LPVOID)ui.listView, 0, NULL);
 }
 
 chatpage::~chatpage()
