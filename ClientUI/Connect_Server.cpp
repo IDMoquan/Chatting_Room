@@ -5,9 +5,20 @@
 #pragma comment(lib, "ws2_32.lib")
 
 std::string localip;
-SOCKET client_socket;
+SOCKET client_socket, client_socket_c;
 bool connect_status = true;
 const char* status = "login";
+int client_count = 0;
+char e_server_ip[256] = { 0 };
+
+int charToint(char* str) {
+	int res = 0;
+	for (int i = 0; i < strlen(str); i++) {
+		res *= 10;
+		res += (int)str[i] - 48;
+	}
+	return res;
+}
 
 std::string Utf8ToGbk(const std::string& utf8Str) {
 	// 首先计算需要的宽字符串长度
@@ -51,15 +62,27 @@ void Connect_Server::ip_confirmed(){
 	QString server_ip = ui.lineEdit->text();
 	std::string s_server_ip = server_ip.toStdString();
 	const char* c_server_ip = s_server_ip.c_str();
+	strcpy(e_server_ip, c_server_ip);
 	client_socket = socket(AF_INET, SOCK_STREAM, 0);
-	bool connect_seccess = false;	
+	client_socket_c = socket(AF_INET, SOCK_STREAM, 0);
 	//设置属性
-	struct sockaddr_in target;
+	struct sockaddr_in target = { 0 };
 	target.sin_family = AF_INET;
 	target.sin_port = htons(8080);
 	target.sin_addr.s_addr = inet_addr(c_server_ip);
+
+	struct sockaddr_in c_tar = { 0 };
+	c_tar.sin_family = AF_INET;
+	c_tar.sin_port = htons(8081);
+	c_tar.sin_addr.s_addr = inet_addr(c_server_ip);
+	bool connect_seccess = false;	
 	//连接服务器
 	if (::connect(client_socket, (struct sockaddr*)&target, sizeof(target)) == -1) {
+		MessageBox(NULL, L"登录失败1！", NULL, MB_OK);
+		return;
+	}
+	if (::connect(client_socket_c, (struct sockaddr*)&c_tar, sizeof(c_tar)) == -1) {
+		MessageBox(NULL, L"登录失败2！", NULL, MB_OK);
 		return;
 	}
 	send(client_socket, Utf8ToGbk(localip).c_str(), 256, 0);

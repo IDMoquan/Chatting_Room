@@ -23,6 +23,7 @@ typedef struct {
     SOCKET socket;
     char* client_ip;
     char username[256];
+    SOCKET c_socket;
 } Data;
 
 // 输入信息
@@ -164,6 +165,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
     //拆开结构体包装
     Data data = *(Data*)lpThreadParameter;
     SOCKET client_socket = data.socket;    //取出socket
+    SOCKET c_client_socket = data.c_socket;
     char* client_ip = data.client_ip;        //取出client_ip
     char* input_username = (char*)malloc(1024 * sizeof(char));
     char* input_password = (char*)malloc(1024 * sizeof(char));
@@ -235,8 +237,19 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     printf("%s登录成功！\n", client_ip);
                     login_success = true;
                     strcpy(data.username, input_username);
-                    /*const char* back_info = "accept";
-                    send(client_socket, back_info, 256, 0);*/
+                    char info[256];
+                    sprintf(info, "%zu", clients.size());
+                    send(c_client_socket, info, 256, 0);
+                    free(input_username);
+                    free(input_password);
+                    free(status);
+                    clients.push_back(data);
+                    for (int i = 0; i < clients.size(); i++) {
+                        for (int j = 0; j < clients.size(); j++) {
+                            sprintf(info, "%s", clients[j].username);
+                            send(clients[i].c_socket, info, 256, 0);
+                        }
+                    }
                     break;
                 }
             }
@@ -299,10 +312,6 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
             }
         }
     }
-    free(input_username);
-    free(input_password);
-    free(status);
-    clients.push_back(data);
     status1 = true;
     cout << data.username << "登录！" << endl;
     while (true) {
@@ -346,6 +355,11 @@ int main() {
         printf("创建listen_socket失败！！！错误代码：%d\n", GetLastError());
         return -1;
     }
+    SOCKET c_listen_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (c_listen_socket == INVALID_SOCKET) {
+        printf("创建listen_socket失败！！！错误代码：%d\n", GetLastError());
+        return -1;
+    }
 
     puts("创建listen_socket成功！");
 
@@ -359,10 +373,23 @@ int main() {
         printf("绑定Socket失败！！！错误代码：%d\n", GetLastError());
         return -1;
     }
+
+    struct sockaddr_in local_c = { 0 };
+    local_c.sin_family = AF_INET;
+    local_c.sin_port = htons(8081);
+    local_c.sin_addr.s_addr = inet_addr("0.0.0.0");
+    if (bind(c_listen_socket, (struct sockaddr*)&local_c, sizeof(local_c)) == -1) {
+        printf("绑定Socket失败！！！错误代码：%d\n", GetLastError());
+        return -1;
+    }
     puts("绑定Socket成功！");
 
     //启动监听
     if (listen(listen_socket, 10) == -1) {
+        printf("启动listen_socket监听失败！！！错误代码：%d\n", GetLastError());
+        return -1;
+    }
+    if (listen(c_listen_socket, 10) == -1) {
         printf("启动listen_socket监听失败！！！错误代码：%d\n", GetLastError());
         return -1;
     }
@@ -373,7 +400,9 @@ int main() {
 
     while (1) {
         SOCKET client_socket = accept(listen_socket, NULL, NULL);  //阻塞
-        if (client_socket == INVALID_SOCKET) {
+        SOCKET c_client_socket = accept(c_listen_socket, NULL, NULL);  //阻塞
+
+        if (client_socket == INVALID_SOCKET || c_client_socket == INVALID_SOCKET) {
             continue;
         }
 
@@ -389,6 +418,7 @@ int main() {
         if (data != NULL) {
             data->client_ip = client_ip;
             data->socket = client_socket;
+            data->c_socket = c_client_socket;
             //data->username = zsbd;
 
             //创建线程
