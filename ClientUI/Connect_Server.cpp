@@ -8,6 +8,7 @@ std::string localip;
 SOCKET client_socket;
 bool connect_status = true;
 const char* status = "login";
+int client_count = 0;
 
 std::string Utf8ToGbk(const std::string& utf8Str) {
 	// 首先计算需要的宽字符串长度
