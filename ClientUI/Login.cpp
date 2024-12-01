@@ -39,6 +39,12 @@ void Login::login() {
 	gs_password = Utf8ToGbk(s_password);
 	username = gs_username.c_str();
 	password = gs_password.c_str();
+	//界面美化
+	ui.lineEdit->setStyleSheet("font: 25 14pt '微软雅黑 Light';" //字体
+		"color: rgb(31,31,31);"		//字体颜色
+		"padding-left:20px;"       //内边距-字体缩进
+		"background-color: rgb(255, 255, 255);" //背景颜色
+		"border:2px solid rgb(20,196,188);border-radius:15px;");//边框粗细-颜色-圆角设置 
 	//发送用户名密码
 	::send(client_socket, username, 1024, 0);
 	::send(client_socket, password, 1024, 0);
@@ -53,4 +59,4 @@ void Login::login() {
 	else {
 		MessageBox(NULL, L"登录失败！", NULL, MB_OK);
 	}
-}
+	}
