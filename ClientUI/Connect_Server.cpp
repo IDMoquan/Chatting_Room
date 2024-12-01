@@ -40,6 +40,7 @@ Connect_Server::Connect_Server(QWidget *parent)
 {
 	ui.setupUi(this);
 	localip = getlocalip();			//本机ip(char *)类型
+	this->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(251,102,102, 200), stop:1 rgba(20,196,188, 210));");//渐变色
 }
 
 Connect_Server::~Connect_Server()

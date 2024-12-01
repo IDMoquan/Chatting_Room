@@ -34,6 +34,9 @@
     <QtMoc Include="chatpage.h" />
     <ClInclude Include="Functions.h" />
   </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="pic.qrc" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{89AD23A5-39FC-4856-8445-36E4819225A1}</ProjectGuid>
     <Keyword>QtVS_v304</Keyword>
@@ -62,7 +65,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>6.8.0_msvc2022_64</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;widgets;multimedia</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">

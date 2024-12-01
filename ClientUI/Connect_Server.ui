@@ -6,64 +6,154 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>495</width>
+    <height>409</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Connect_Server</string>
   </property>
-  <widget class="QLabel" name="label">
+  <property name="layoutDirection">
+   <enum>Qt::LayoutDirection::RightToLeft</enum>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>80</y>
-     <width>281</width>
-     <height>41</height>
+     <x>100</x>
+     <y>50</y>
+     <width>351</width>
+     <height>221</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <pointsize>24</pointsize>
-    </font>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
-   <property name="text">
-    <string>连接服务器</string>
+   <property name="layoutDirection">
+    <enum>Qt::LayoutDirection::RightToLeft</enum>
    </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
+   <property name="styleSheet">
+    <string notr="true">QWidget {
+    
+	background-color: rgb(255, 255, 255);
+  	border: 1px solid #FFFFFF; /* 设置边框宽度为1像素，颜色为白色 */
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+}
+</string>
    </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>160</y>
-     <width>291</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="placeholderText">
-    <string>输入服务器ip地址</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>250</y>
-     <width>111</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>15</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>确认</string>
-   </property>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>160</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    padding: 0px; /* 可以根据需要调整内边距 */
+    border: 1px solid rgb(85, 255, 255); /* 可以根据需要调整边框 */
+    text-align: center;
+	color:rgb(0, 0, 0);
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+	background-color:rgb(20, 196, 188);
+}
+QPushButton:hover {
+    background-color: #f0f0f0; /* 鼠标悬停时的背景色 */
+}
+QPushButton:pressed {
+    background-color: #d0d0d0; /* 按钮被按下时的背景色 */
+}
+</string>
+    </property>
+    <property name="text">
+     <string>确认</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>30</y>
+      <width>281</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    color: rgb(0, 0, 0);
+	font: 18pt &quot;幼圆&quot;;
+ 	background-color: transparent;
+}</string>
+    </property>
+    <property name="text">
+     <string>连接服务器</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>90</y>
+      <width>291</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+    border: 3px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
+    background-color: transparent; /* 设置背景透明 */
+}
+</string>
+    </property>
+    <property name="placeholderText">
+     <string>输入服务器ip地址</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

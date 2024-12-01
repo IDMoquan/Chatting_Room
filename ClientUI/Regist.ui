@@ -13,78 +13,139 @@
   <property name="windowTitle">
    <string>Regist</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>60</y>
-     <width>121</width>
-     <height>41</height>
+     <x>120</x>
+     <y>20</y>
+     <width>341</width>
+     <height>331</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>微软雅黑</family>
-     <pointsize>24</pointsize>
-    </font>
+   <property name="styleSheet">
+    <string notr="true">QWidget {
+    
+	background-color: rgb(255, 255, 255);
+  	border: 1px solid #FFFFFF; /* 设置边框宽度为1像素，颜色为白色 */
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+}
+</string>
    </property>
-   <property name="text">
-    <string>注册</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>120</y>
-     <width>241</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="placeholderText">
-    <string>请输入用户名</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>200</y>
-     <width>241</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="placeholderText">
-    <string>请输入密码</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>250</x>
-     <y>280</y>
-     <width>101</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>微软雅黑</family>
-     <pointsize>15</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>确认</string>
-   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>30</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>幼圆</family>
+      <pointsize>18</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel {
+    color: rgb(0, 0, 0);
+	font: 18pt &quot;幼圆&quot;;
+ 	background-color: transparent;
+}</string>
+    </property>
+    <property name="text">
+     <string>注册</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>90</y>
+      <width>241</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+    border: 3px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
+    background-color: transparent; /* 设置背景透明 */
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>请输入用户名</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>160</y>
+      <width>241</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+    border: 3px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
+    background-color: transparent; /* 设置背景透明 */
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>请输入密码</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>230</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+    padding: 0px; /* 可以根据需要调整内边距 */
+    border: 1px solid rgb(85, 255, 255); /* 可以根据需要调整边框 */
+    text-align: center;
+	color:rgb(0, 0, 0);
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+	background-color:rgb(20, 196, 188);
+}
+QPushButton:hover {
+    background-color: #f0f0f0; /* 鼠标悬停时的背景色 */
+}
+QPushButton:pressed {
+    background-color: #d0d0d0; /* 按钮被按下时的背景色 */
+}
+</string>
+    </property>
+    <property name="text">
+     <string>确认</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

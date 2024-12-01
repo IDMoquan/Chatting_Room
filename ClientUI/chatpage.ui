@@ -6,12 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>381</height>
+    <width>553</width>
+    <height>378</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>chatpage</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+	
+	color: rgb(255, 255, 255);
+}</string>
   </property>
   <widget class="QListView" name="listView">
    <property name="geometry">
@@ -22,11 +31,11 @@
      <height>271</height>
     </rect>
    </property>
-   <property name="font">
-    <font>
-     <family>微软雅黑</family>
-     <pointsize>15</pointsize>
-    </font>
+   <property name="styleSheet">
+    <string notr="true">QListView {
+    border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
+    border-radius: 10px; /* 设置圆角半径 */
+}</string>
    </property>
   </widget>
   <widget class="QListView" name="onlinecountlistView">
@@ -38,6 +47,12 @@
      <height>341</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QListView {
+    border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
+    border-radius: 10px; /* 设置圆角半径 */
+}</string>
+   </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
@@ -48,14 +63,21 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+    border: 3px solid rgb(255, 255, 255); /* 设置边框颜色和宽度 */
+    background-color: transparent; /* 设置背景透明 */
+}</string>
+   </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>160</x>
+     <x>130</x>
      <y>320</y>
-     <width>244</width>
-     <height>27</height>
+     <width>269</width>
+     <height>39</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -96,6 +118,41 @@
       </item>
       <item>
        <widget class="QPushButton" name="sendpushButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="sizeIncrement">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    padding: 0px; /* 可以根据需要调整内边距 */
+    border: 1px solid rgb(85, 255, 255); /* 可以根据需要调整边框 */
+    text-align: center;
+	color:rgb(0, 0, 0);
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+	background-color:rgb(20, 196, 188);
+}
+QPushButton:hover {
+    background-color: #f0f0f0; /* 鼠标悬停时的背景色 */
+}
+QPushButton:pressed {
+    background-color: #d0d0d0; /* 按钮被按下时的背景色 */
+}
+</string>
+        </property>
         <property name="text">
          <string>发送</string>
         </property>
@@ -116,6 +173,29 @@
       </item>
       <item>
        <widget class="QPushButton" name="cancelpushButton">
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    padding: 0px; /* 可以根据需要调整内边距 */
+    border: 1px solid rgb(85, 255, 255); /* 可以根据需要调整边框 */
+    text-align: center;
+	color:rgb(0, 0, 0);
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+	background-color:rgb(20, 196, 188);
+}
+QPushButton:hover {
+    background-color: #f0f0f0; /* 鼠标悬停时的背景色 */
+}
+QPushButton:pressed {
+    background-color: #d0d0d0; /* 按钮被按下时的背景色 */
+}
+</string>
+        </property>
         <property name="text">
          <string>取消</string>
         </property>
@@ -142,22 +222,6 @@
     <hint type="destinationlabel">
      <x>258</x>
      <y>361</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cancelpushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>chatpageClass</receiver>
-   <slot>cleanup()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>351</x>
-     <y>333</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>315</x>
-     <y>359</y>
     </hint>
    </hints>
   </connection>
