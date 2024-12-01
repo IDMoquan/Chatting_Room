@@ -235,8 +235,8 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     printf("%sµÇÂ¼³É¹¦£¡\n", client_ip);
                     login_success = true;
                     strcpy(data.username, input_username);
-                    const char* back_info = "accept";
-                    send(client_socket, back_info, 256, 0);
+                    /*const char* back_info = "accept";
+                    send(client_socket, back_info, 256, 0);*/
                     break;
                 }
             }
@@ -313,7 +313,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
             break;
         }
         Messages temp;
-        memset(&temp, 0, sizeof(Messages));
+        //memset(&temp, 0, sizeof(Messages));
         temp.client_ip = client_ip;
         temp.message = buffer;
         temp.sender_socket = client_socket;

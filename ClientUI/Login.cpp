@@ -3,6 +3,7 @@
 int reg_window_count = 0;
 extern SOCKET client_socket;
 extern std::string Utf8ToGbk(const std::string& utf8Str);
+extern bool connect_status;
 
 Login::Login(QWidget *parent)
 	: QWidget(parent)
@@ -52,6 +53,7 @@ void Login::login() {
 	if (!strcmp(back_info, "accept")) {
 		window_chat.show();
 		//MessageBox(NULL, L"登录成功！", NULL, MB_OK);
+		connect_status = false;
 		this->close();
 	}
 	else {

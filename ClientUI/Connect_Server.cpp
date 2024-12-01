@@ -6,6 +6,7 @@
 
 std::string localip;
 SOCKET client_socket;
+bool connect_status = true;
 const char* status = "login";
 
 std::string Utf8ToGbk(const std::string& utf8Str) {
