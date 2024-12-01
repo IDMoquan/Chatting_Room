@@ -235,8 +235,8 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     printf("%sµÇÂ¼³É¹¦£¡\n", client_ip);
                     login_success = true;
                     strcpy(data.username, input_username);
-                    char* back_info;
-                    sprintf(back_info, "%d", clients.size());
+                    char back_info[256];
+                    sprintf(back_info, "%zu", clients.size());
                     send(client_socket, back_info, 256, 0);
                     break;
                 }
