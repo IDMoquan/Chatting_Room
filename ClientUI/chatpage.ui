@@ -22,6 +22,12 @@
      <height>271</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
   </widget>
   <widget class="QListView" name="onlinecountlistView">
    <property name="geometry">
@@ -43,7 +49,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>160</x>
