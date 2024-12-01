@@ -3,6 +3,7 @@
 int reg_window_count = 0;
 extern SOCKET client_socket;
 extern std::string Utf8ToGbk(const std::string& utf8Str);
+extern int charToint(char* str);
 extern bool connect_status;
 extern int client_count;
 
@@ -55,13 +56,10 @@ void Login::login() {
 		window_chat.show();
 		//MessageBox(NULL, L"登录成功！", NULL, MB_OK);
 		char c_client_count[256] = { 0 };
-		//接收加入时的人数
-		recv(client_socket, c_client_count, 256, 0);
-		//char转int
-		for (int i = 0; i < strlen(c_client_count); i++) {
-			client_count *= 10;
-			client_count += (int)c_client_count[i] - 48;
-		}
+		////接收加入时的人数
+		//recv(client_socket, c_client_count, 256, 0);
+		////char转int
+		//client_count = charToint(c_client_count);
 		connect_status = false;
 		this->close();
 	}
