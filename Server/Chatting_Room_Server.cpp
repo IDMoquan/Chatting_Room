@@ -50,7 +50,12 @@ bool userExists(const char* username) {
     char line[256];
     while (fgets(line, sizeof(line), file) != NULL) {
         char storedUsername[256];
-        sscanf(line, "%s", storedUsername);
+        int ret = sscanf(line, "%s", storedUsername);
+        if (ret != 1) {
+            printf("str Error!\n");
+            return false;
+        }
+        storedUsername[strlen(storedUsername)] = '\0';
         if (strcmp(username, storedUsername) == 0) {
             fclose(file);
             return true;
@@ -85,7 +90,13 @@ string check_data_login(char* username, char* password) {
     while (fgets(line, sizeof(line), file) != NULL) {
         char storedUsername[256];
         char storedPassword[256];
-        sscanf(line, "%s %s", storedUsername, storedPassword);
+        int ret = sscanf(line, "%s %s", storedUsername, storedPassword);
+        if (ret != 2) {
+            printf("str Error!\n");
+            return "reject";
+        }
+        storedUsername[strlen(storedUsername)] = '\0';
+        storedPassword[strlen(storedPassword)] = '\0';
         if (strcmp(username, storedUsername) == 0 && strcmp(password, storedPassword) == 0) {
             fclose(file);
             return "accept";
@@ -302,6 +313,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
             break;
         }
         Messages temp;
+        memset(&temp, 0, sizeof(Messages));
         temp.client_ip = client_ip;
         temp.message = buffer;
         temp.sender_socket = client_socket;
