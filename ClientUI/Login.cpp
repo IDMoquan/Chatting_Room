@@ -9,16 +9,8 @@ Login::Login(QWidget *parent)
 {
 	ui.setupUi(this);
 	connect(ui.pushButton, SIGNAL(clicked()), this, SLOT(login()));
-	ui.lineEdit->setStyleSheet("font: 25 14pt '微软雅黑 Light';" //字体
-		"color: rgb(31,31,31);"		//字体颜色
-		"padding-left:20px;"       //内边距-字体缩进
-		"background-color: rgb(255, 255, 255);" //背景颜色
-		"border:2px solid rgb(20,196,188);border-radius:15px;");//边框粗细-颜色-圆角设置 
-	ui.lineEdit_2->setStyleSheet("font: 25 14pt '微软雅黑 Light';" //字体
-		"color: rgb(31,31,31);"		//字体颜色
-		"padding-left:20px;"       //内边距-字体缩进
-		"background-color: rgb(255, 255, 255);" //背景颜色
-		"border:2px solid rgb(20,196,188);border-radius:15px;");//边框粗细-颜色-圆角设置 
+	this->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(251,102,102, 200), stop:1 rgba(20,196,188, 210));");//渐变色
+
 }
 
 Login::~Login()
