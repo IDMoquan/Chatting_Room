@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>506</width>
-    <height>405</height>
+    <width>670</width>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,30 +17,29 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget{
-	
-	background-color: qconicalgradient(cx:0, cy:0, angle:112.8, stop:0 rgba(99, 255, 255, 69), stop:0.125 rgba(235, 255, 0, 69), stop:0.295455 rgba(6, 206, 163, 130), stop:0.375 rgba(255, 255, 0, 69), stop:0.426136 rgba(255, 255, 0, 69), stop:0.465909 rgba(181, 255, 231, 208), stop:0.518717 rgba(43, 255, 255, 130), stop:0.528409 rgba(68, 244, 221, 130), stop:0.596591 rgba(166, 250, 253, 145), stop:0.602273 rgba(68, 244, 221, 130), stop:0.755682 rgba(38, 255, 245, 255), stop:0.914773 rgba(101, 215, 235, 69));
-}</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>731</width>
-     <height>601</height>
+     <width>1021</width>
+     <height>681</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QWidget{
+    <string notr="true">QWidget#widget{
 	background-color: transparent;
+	background-image: url(:/new/prefix1/1.png);
+	
 }</string>
    </property>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>320</y>
+      <x>190</x>
+      <y>390</y>
       <width>333</width>
       <height>75</height>
      </rect>
@@ -175,62 +174,64 @@ QPushButton:pressed {
      </item>
     </layout>
    </widget>
-  </widget>
-  <widget class="QListView" name="onlinecountlistView">
-   <property name="geometry">
-    <rect>
-     <x>410</x>
-     <y>0</y>
-     <width>81</width>
-     <height>341</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QListView {
-    border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
-    border-radius: 10px; /* 设置圆角半径 */
-	background-color: rgb(146, 223, 231);
-}</string>
-   </property>
-  </widget>
-  <widget class="QListView" name="listView">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>401</width>
-     <height>271</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QListView {
+   <widget class="QListView" name="listView">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>521</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QListView {
     border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
     border-radius: 10px; /* 设置圆角半径 */
 	
-	background-color:rgba(150, 226, 231, 246);
+	background-color:transparent;
 }</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>280</y>
-     <width>401</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit {
+    </property>
+   </widget>
+   <widget class="QListView" name="onlinecountlistView">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>0</y>
+      <width>81</width>
+      <height>381</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QListView {
+    border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
+    border-radius: 10px; /* 设置圆角半径 */
+	background-color: transparent;
+}</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>350</y>
+      <width>511</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
     border-radius: 10px; /* 设置边框圆角为10像素 */
-    border: 3px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
+    border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
     background-color: transparent; /* 设置背景透明 */
 }</string>
-   </property>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>sendpushButton</sender>
