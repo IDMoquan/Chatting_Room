@@ -7,6 +7,7 @@
 extern SOCKET client_socket;
 QString qusername, qpassword;
 std::string s_username, s_password;
+const char* username, * password;
 char back_info[256];
 
 Regist::Regist(QWidget *parent)
@@ -28,7 +29,6 @@ void Regist::closeEvent(QCloseEvent* event) {
 }
 
 void Regist::regist_confirm() {
-	const char* username, * password;
 	//分布转化，不然会指向已销毁实例
 	qusername = ui.lineEdit->text();
 	qpassword = ui.lineEdit_2->text();

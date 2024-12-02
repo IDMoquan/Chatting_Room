@@ -10,8 +10,6 @@ bool connect_status = true;
 const char* status = "login";
 int client_count = 0;
 char e_server_ip[256] = { 0 };
-const char* username, * password;
-std::string username_this;
 
 int charToint(char* str) {
 	int res = 0;

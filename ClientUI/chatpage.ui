@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>827</width>
-    <height>554</height>
+    <width>553</width>
+    <height>378</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,12 +30,6 @@
      <width>401</width>
      <height>271</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>微软雅黑</family>
-     <pointsize>16</pointsize>
-    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">QListView {

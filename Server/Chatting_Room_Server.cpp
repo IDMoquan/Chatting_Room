@@ -161,7 +161,7 @@ DWORD WINAPI Send(LPVOID lpThreadParameter) {
                     continue;
                 }
                 string temp;
-                temp.append(messages.front().username);
+                temp.append(clt.username);
                 temp.append(":");
                 temp.append(messages.front().message);
                 while (!status2);
