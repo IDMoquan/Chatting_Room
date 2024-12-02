@@ -174,41 +174,6 @@ QPushButton:pressed {
      </item>
     </layout>
    </widget>
-   <widget class="QListView" name="listView">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>521</width>
-      <height>331</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QListView {
-    border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
-    border-radius: 10px; /* 设置圆角半径 */
-	
-	background-color:transparent;
-}</string>
-    </property>
-   </widget>
-   <widget class="QListView" name="onlinecountlistView">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>0</y>
-      <width>81</width>
-      <height>381</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QListView {
-    border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
-    border-radius: 10px; /* 设置圆角半径 */
-	background-color: transparent;
-}</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
@@ -220,6 +185,40 @@ QPushButton:pressed {
     </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+    border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
+    background-color: transparent; /* 设置背景透明 */
+}</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="mainwidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>511</width>
+      <height>341</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget {
+    border-radius: 10px; /* 设置边框圆角为10像素 */
+    border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
+    background-color: transparent; /* 设置背景透明 */
+}</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>0</y>
+      <width>81</width>
+      <height>431</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget {
     border-radius: 10px; /* 设置边框圆角为10像素 */
     border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
     background-color: transparent; /* 设置背景透明 */
