@@ -2,5 +2,6 @@
     <qresource prefix="/new/prefix1">
         <file>1.gif</file>
         <file>2.jpg</file>
+        <file>3.gif</file>
     </qresource>
 </RCC>
