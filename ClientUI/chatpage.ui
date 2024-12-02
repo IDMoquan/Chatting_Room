@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>844</width>
-    <height>583</height>
+    <width>553</width>
+    <height>378</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,10 @@
    <bool>false</bool>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QWidget{
+	
+	background-color: qconicalgradient(cx:0, cy:0, angle:112.8, stop:0 rgba(99, 255, 255, 69), stop:0.125 rgba(235, 255, 0, 69), stop:0.295455 rgba(6, 206, 163, 130), stop:0.375 rgba(255, 255, 0, 69), stop:0.426136 rgba(255, 255, 0, 69), stop:0.465909 rgba(181, 255, 231, 208), stop:0.518717 rgba(43, 255, 255, 130), stop:0.528409 rgba(68, 244, 221, 130), stop:0.596591 rgba(166, 250, 253, 145), stop:0.602273 rgba(68, 244, 221, 130), stop:0.755682 rgba(38, 255, 245, 255), stop:0.914773 rgba(101, 215, 235, 69));
+}</string>
   </property>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
@@ -149,35 +152,35 @@ QPushButton:pressed {
     background-color: #d0d0d0; /* 按钮被按下时的背景色 */
 }
 </string>
-         </property>
-         <property name="text">
-          <string>发送</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Orientation::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cancelpushButton">
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton {
+        </property>
+        <property name="text">
+         <string>发送</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Orientation::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="cancelpushButton">
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>35</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
     padding: 0px; /* 可以根据需要调整内边距 */
     border: 1px solid rgb(85, 255, 255); /* 可以根据需要调整边框 */
     text-align: center;
@@ -202,64 +205,62 @@ QPushButton:pressed {
      </item>
     </layout>
    </widget>
-   <widget class="QListView" name="onlinecountlistView">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>20</y>
-      <width>91</width>
-      <height>431</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QListView {
+  </widget>
+  <widget class="QListView" name="onlinecountlistView">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>0</y>
+     <width>81</width>
+     <height>341</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QListView {
     border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
     border-radius: 10px; /* 设置圆角半径 */
-	background-color:transparent;
+	background-color: rgb(146, 223, 231);
 }</string>
-    </property>
-   </widget>
-   <widget class="QListView" name="listView">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>10</y>
-      <width>571</width>
-      <height>371</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QListView {
+   </property>
+  </widget>
+  <widget class="QListView" name="listView">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>401</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QListView {
     border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
     border-radius: 10px; /* 设置圆角半径 */
 	
-	background-color:transparent;
+	background-color:rgba(150, 226, 231, 246);
 }</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>390</y>
-      <width>571</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QLineEdit {
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>280</y>
+     <width>401</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit {
     border-radius: 10px; /* 设置边框圆角为10像素 */
-    border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
+    border: 3px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
     background-color: transparent; /* 设置背景透明 */
 }</string>
-    </property>
-   </widget>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="pic.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>sendpushButton</sender>
