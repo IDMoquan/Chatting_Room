@@ -6,6 +6,8 @@ extern std::string Utf8ToGbk(const std::string& utf8Str);
 extern int charToint(char* str);
 extern bool connect_status;
 extern int client_count;
+extern const char* username, * password;
+extern std::string username_this;
 
 Login::Login(QWidget *parent)
 	: QWidget(parent)
@@ -34,7 +36,6 @@ void Login::login() {
 	//MessageBox(NULL, L"登录！", NULL, MB_OK);
 	QString qusername, qpassword;
 	std::string s_username, s_password, gs_username, gs_password;
-	const char* username, * password;
 	char back_info[256];
 	qusername = ui.lineEdit->text();
 	qpassword = ui.lineEdit_2->text();
@@ -44,6 +45,8 @@ void Login::login() {
 	gs_password = Utf8ToGbk(s_password);
 	username = gs_username.c_str();
 	password = gs_password.c_str();
+	username_this = s_username;
+	username_this += ":";
 	//界面美化
 	
 	//发送用户名密码

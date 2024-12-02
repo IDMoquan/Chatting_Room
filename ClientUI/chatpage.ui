@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>553</width>
-    <height>378</height>
+    <width>827</width>
+    <height>554</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,25 +27,38 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>401</width>
-     <height>271</height>
+     <width>681</width>
+     <height>431</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">QListView {
     border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
     border-radius: 10px; /* 设置圆角半径 */
+	font-color : rgb(0, 255, 0);
 }</string>
    </property>
   </widget>
   <widget class="QListView" name="onlinecountlistView">
    <property name="geometry">
     <rect>
-     <x>410</x>
+     <x>690</x>
      <y>0</y>
-     <width>81</width>
-     <height>341</height>
+     <width>131</width>
+     <height>491</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">QListView {
@@ -57,11 +70,17 @@
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>280</y>
-     <width>401</width>
-     <height>31</height>
+     <x>10</x>
+     <y>440</y>
+     <width>671</width>
+     <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>16</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">QLineEdit {
@@ -74,15 +93,21 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>320</y>
-     <width>269</width>
-     <height>39</height>
+     <x>300</x>
+     <y>500</y>
+     <width>381</width>
+     <height>51</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
      <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>在线人数：</string>
       </property>
@@ -136,6 +161,12 @@
           <height>0</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <family>微软雅黑</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
     padding: 0px; /* 可以根据需要调整内边距 */
@@ -178,6 +209,12 @@ QPushButton:pressed {
           <width>80</width>
           <height>35</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>微软雅黑</family>
+          <pointsize>12</pointsize>
+         </font>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton {
