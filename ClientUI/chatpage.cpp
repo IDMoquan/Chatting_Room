@@ -14,7 +14,9 @@ extern int charToint(char* str);	//char转int
 extern bool connect_status;			//连接状态
 extern char e_server_ip[256];			//客户端ip
 extern int client_count;
+extern char username_this_c[256];
 QStringList list, c_list;
+extern std::string username_this;
 
 extern std::string Utf8ToGbk(const std::string& utf8Str);
 
@@ -82,6 +84,11 @@ void chatpage::sendinfor() {
 	}
 	else {
 		const char* messsage = s_message.c_str();
+		
+		qDebug() << qmessage.prepend(username_this);
+		list.append(qmessage);
+		QStringListModel* listmodel = new QStringListModel(list);
+		ui.listView->setModel(listmodel);
 		::send(client_socket, messsage, 1024, 0);
 		cleanup();
 	}
