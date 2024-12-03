@@ -1,4 +1,5 @@
-﻿#include "chatpage.h"
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include "chatpage.h"
 #include "Functions.h"
 #include "Login.h"
 #include<WinSock2.h>
@@ -82,9 +83,11 @@ void chatpage::sendinfor() {
 	}
 	else {
 		const char* messsage = s_message.c_str();
-		qmessage = c_username + ':' + qmessage;
-		list << qmessage;
-		ui.listWidget->addItem(qmessage);
+		//qmessage = c_username + ':' + qmessage;
+		char fin_username[256];
+		sprintf(fin_username, "%s:%s", c_username, messsage);
+		list << fin_username;
+		ui.listWidget->addItem(fin_username);
 		::send(client_socket, messsage, 1024, 0);
 		cleanup();
 	}
