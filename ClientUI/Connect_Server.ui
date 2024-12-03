@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>495</width>
-    <height>409</height>
+    <width>765</width>
+    <height>510</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,10 +25,10 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>60</y>
-     <width>351</width>
-     <height>221</height>
+     <x>230</x>
+     <y>110</y>
+     <width>321</width>
+     <height>301</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -36,6 +36,11 @@
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
    </property>
    <property name="layoutDirection">
     <enum>Qt::LayoutDirection::RightToLeft</enum>
@@ -52,10 +57,10 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>160</y>
-      <width>111</width>
-      <height>31</height>
+      <x>110</x>
+      <y>190</y>
+      <width>101</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -66,6 +71,7 @@
     </property>
     <property name="font">
      <font>
+      <family>微软雅黑</family>
       <pointsize>15</pointsize>
      </font>
     </property>
@@ -76,7 +82,7 @@
     text-align: center;
 	color:rgb(0, 0, 0);
     border-radius: 10px; /* 设置边框圆角为10像素 */
-	background-color:rgb(20, 196, 188);
+	background-color:rgb(25, 243, 232);
 }
 QPushButton:hover {
     background-color: #f0f0f0; /* 鼠标悬停时的背景色 */
@@ -93,8 +99,8 @@ QPushButton:pressed {
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>30</y>
+      <x>20</x>
+      <y>40</y>
       <width>281</width>
       <height>41</height>
      </rect>
@@ -107,7 +113,7 @@ QPushButton:pressed {
     </property>
     <property name="font">
      <font>
-      <family>幼圆</family>
+      <family>微软雅黑</family>
       <pointsize>18</pointsize>
       <italic>false</italic>
       <bold>false</bold>
@@ -116,7 +122,7 @@ QPushButton:pressed {
     <property name="styleSheet">
      <string notr="true">QLabel {
     color: rgb(0, 0, 0);
-	font: 18pt &quot;幼圆&quot;;
+	font: 18pt &quot;微软雅黑&quot;;
  	background-color: transparent;
 }</string>
     </property>
@@ -131,8 +137,8 @@ QPushButton:pressed {
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>90</y>
-      <width>291</width>
+      <y>110</y>
+      <width>281</width>
       <height>51</height>
      </rect>
     </property>
@@ -142,11 +148,17 @@ QPushButton:pressed {
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
     border-radius: 10px; /* 设置边框圆角为10像素 */
     border: 3px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
     background-color: transparent; /* 设置背景透明 */
+	color : rgb(0, 0, 0);
 }
 </string>
     </property>

@@ -1,4 +1,5 @@
-﻿#include "Login.h"
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include "Login.h"
 
 int reg_window_count = 0;	//注册窗口计数
 extern SOCKET client_socket;
@@ -7,6 +8,7 @@ extern int charToint(char* str);
 extern bool connect_status;
 extern int client_count;
 extern std::string s_username, s_password;
+extern char c_username[256];
 
 Login::Login(QWidget *parent)
 	: QWidget(parent)
@@ -45,6 +47,7 @@ void Login::login() {
 	gs_password = Utf8ToGbk(s_password);
 	username = gs_username.c_str();
 	password = gs_password.c_str();
+	strcpy(c_username, username);
 	//界面美化
 	
 	//发送用户名密码

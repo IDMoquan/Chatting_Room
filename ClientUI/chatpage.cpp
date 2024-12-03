@@ -14,7 +14,7 @@ extern int charToint(char* str);	//char转int
 extern bool connect_status;			//连接状态
 extern char e_server_ip[256];			//客户端ip
 extern int client_count;
-extern std::string s_username, s_password;
+extern char c_username[256];
 QStringList list, c_list;
 
 extern std::string Utf8ToGbk(const std::string& utf8Str);
@@ -82,7 +82,7 @@ void chatpage::sendinfor() {
 	}
 	else {
 		const char* messsage = s_message.c_str();
-		qmessage = ;
+		qmessage = c_username + ':' + qmessage;
 		list << qmessage;
 		ui.listWidget->addItem(qmessage);
 		::send(client_socket, messsage, 1024, 0);

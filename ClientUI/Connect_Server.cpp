@@ -4,12 +4,13 @@
 #include <winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
 
-std::string localip, s_username, s_password;
+std::string localip;
 SOCKET client_socket, client_socket_c;
 bool connect_status = true;
 const char* status = "login";
 int client_count = 0;
 char e_server_ip[256] = { 0 };
+char c_username[256] = { 0 };
 
 int charToint(char* str) {
 	int res = 0;

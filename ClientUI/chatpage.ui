@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>670</width>
-    <height>500</height>
+    <width>780</width>
+    <height>531</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,9 +47,15 @@
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+        </font>
+       </property>
        <property name="styleSheet">
         <string notr="true">QLabel{
-	background-color:transparent ;
+	background-color:transparent;
+	color : rgb(255, 255, 255);
 }</string>
        </property>
        <property name="text">
@@ -105,14 +111,19 @@
            <height>0</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
     padding: 0px; /* 可以根据需要调整内边距 */
-    border: 1px solid rgb(85, 255, 255); /* 可以根据需要调整边框 */
     text-align: center;
-	color:rgb(0, 0, 0);
+	colo r: white;
     border-radius: 10px; /* 设置边框圆角为10像素 */
-	background-color:rgb(20, 196, 188);
+	background-color:rgb(4, 102, 222);
 }
 QPushButton:hover {
     background-color: #f0f0f0; /* 鼠标悬停时的背景色 */
@@ -148,14 +159,19 @@ QPushButton:pressed {
            <height>35</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true">QPushButton {
     padding: 0px; /* 可以根据需要调整内边距 */
-    border: 1px solid rgb(85, 255, 255); /* 可以根据需要调整边框 */
     text-align: center;
-	color:rgb(0, 0, 0);
+	colo r: white;
     border-radius: 10px; /* 设置边框圆角为10像素 */
-	background-color:rgb(20, 196, 188);
+	background-color:rgb(4, 102, 222);
 }
 QPushButton:hover {
     background-color: #f0f0f0; /* 鼠标悬停时的背景色 */
@@ -179,15 +195,21 @@ QPushButton:pressed {
      <rect>
       <x>10</x>
       <y>350</y>
-      <width>511</width>
+      <width>621</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
     border-radius: 10px; /* 设置边框圆角为10像素 */
     border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
-    background-color: transparent; /* 设置背景透明 */
+    background-color: rgba(255, 255, 255, 150); /* 设置背景透明 */
+	color : black;
 }</string>
     </property>
    </widget>
@@ -196,7 +218,7 @@ QPushButton:pressed {
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>511</width>
+      <width>621</width>
       <height>341</height>
      </rect>
     </property>
@@ -212,17 +234,28 @@ QPushButton:pressed {
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>491</width>
+       <width>601</width>
        <height>321</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>微软雅黑</family>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QlistWidget{
+	color : rgb(255, 255, 255);
+	background-color : rgba(255, 255, 255, 150);
+}</string>
      </property>
     </widget>
    </widget>
    <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
      <rect>
-      <x>540</x>
-      <y>0</y>
+      <x>650</x>
+      <y>10</y>
       <width>81</width>
       <height>431</height>
      </rect>
@@ -242,6 +275,11 @@ QPushButton:pressed {
        <width>81</width>
        <height>431</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>微软雅黑</family>
+      </font>
      </property>
     </widget>
    </widget>
