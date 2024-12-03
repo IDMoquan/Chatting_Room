@@ -207,6 +207,16 @@ QPushButton:pressed {
     background-color: transparent; /* 设置背景透明 */
 }</string>
     </property>
+    <widget class="QListWidget" name="listWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>491</width>
+       <height>321</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="widget_2" native="true">
     <property name="geometry">
@@ -224,6 +234,16 @@ QPushButton:pressed {
     background-color: transparent; /* 设置背景透明 */
 }</string>
     </property>
+    <widget class="QListWidget" name="listWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>81</width>
+       <height>431</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>

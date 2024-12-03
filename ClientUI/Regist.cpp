@@ -49,8 +49,10 @@ void Regist::regist_confirm() {
 	//LPCWSTR lpWideString = wideString;
 	//MessageBox(NULL, lpWideString, L"Error!", MB_OK);
 	//delete[] wideString;
-	//if (!strcmp("accept", back_info)) {
-	//	MessageBox(NULL, L"accept", L"Error!", MB_OK);
-	//}
-	this->close();
+	if (!strcmp("accept", back_info)) {
+		this->close();
+	}
+	else {
+		MessageBox(NULL, L"用户已被注册！", L"Error!", MB_OK);
+	}
 }

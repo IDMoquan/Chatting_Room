@@ -4,7 +4,7 @@
 #include<WinSock2.h>
 #include<string>
 #include<Windows.h>
-#include<qlistview.h>
+#include<qlistwidget.h>
 #include<qstringlistmodel.h>
 #pragma comment(lib, "ws2_32.lib")
 
@@ -20,15 +20,15 @@ extern std::string Utf8ToGbk(const std::string& utf8Str);
 
 //接收在线用户信息线程
 DWORD WINAPI Receive_clients(LPVOID lpThreadParameter) {
-	QListView* message_list = (QListView*)lpThreadParameter;
+	QListWidget* message_list = (QListWidget*)lpThreadParameter;
 	message_list->setSpacing(5);
 	message_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	while (connect_status);
-	
 	while (1) {
 		char c_client_count[256] = { 0 };
 		recv(client_socket_c, c_client_count, 256, 0);
 		c_list.clear();
+		message_list->clear();
 		client_count = charToint(c_client_count);
 		char info[256] = { 0 };
 		for (int i = 0; i < client_count; i++) {
@@ -36,13 +36,13 @@ DWORD WINAPI Receive_clients(LPVOID lpThreadParameter) {
 			c_list.append(info);
 		}
 		QStringListModel* c_listmodel = new QStringListModel(c_list);
-		message_list->setModel(c_listmodel);
+		message_list->addItems(c_list);
 	}
 }
 
 //接收服务器分发消息线程
 DWORD WINAPI Receive_message(LPVOID lpThreadParameter) {
-	QListView* message_list = (QListView*)lpThreadParameter;
+	QListWidget* message_list = (QListWidget*)lpThreadParameter;
 	message_list->setSpacing(5);
 	message_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	while (connect_status);
@@ -53,9 +53,8 @@ DWORD WINAPI Receive_message(LPVOID lpThreadParameter) {
 			MessageBox(NULL, L"服务器断开连接！", NULL, MB_OK);
 			return -1;
 		}
-		list.append(buffer);
-		QStringListModel* listmodel = new QStringListModel(list);
-		message_list->setModel(listmodel);
+		list << buffer;
+		message_list->addItem(buffer);
 	}
 	return 0;
 }
@@ -65,8 +64,8 @@ chatpage::chatpage(QWidget* parent)
 {
 	ui.setupUi(this);
 	//创建接收线程
-	CreateThread(NULL, 0, Receive_message, (LPVOID)ui.listView, 0, NULL);
-	CreateThread(NULL, 0, Receive_clients, (LPVOID)ui.onlinecountlistView, 0, NULL);
+	CreateThread(NULL, 0, Receive_message, (LPVOID)ui.listWidget, 0, NULL);
+	CreateThread(NULL, 0, Receive_clients, (LPVOID)ui.listWidget_2, 0, NULL);
 }
 
 chatpage::~chatpage()
@@ -82,6 +81,9 @@ void chatpage::sendinfor() {
 	}
 	else {
 		const char* messsage = s_message.c_str();
+		//qmessage = ;
+		list << qmessage;
+		ui.listWidget->addItem(qmessage);
 		::send(client_socket, messsage, 1024, 0);
 		cleanup();
 	}
