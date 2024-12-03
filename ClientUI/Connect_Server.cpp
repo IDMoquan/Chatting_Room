@@ -4,7 +4,7 @@
 #include <winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
 
-std::string localip;
+std::string localip, s_username, s_password;
 SOCKET client_socket, client_socket_c;
 bool connect_status = true;
 const char* status = "login";

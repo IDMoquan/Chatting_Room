@@ -1,11 +1,12 @@
 ﻿#include "Login.h"
 
-int reg_window_count = 0;
+int reg_window_count = 0;	//注册窗口计数
 extern SOCKET client_socket;
 extern std::string Utf8ToGbk(const std::string& utf8Str);
 extern int charToint(char* str);
 extern bool connect_status;
 extern int client_count;
+extern std::string s_username, s_password;
 
 Login::Login(QWidget *parent)
 	: QWidget(parent)
@@ -33,7 +34,7 @@ void Login::regist(){
 void Login::login() {
 	//MessageBox(NULL, L"登录！", NULL, MB_OK);
 	QString qusername, qpassword;
-	std::string s_username, s_password, gs_username, gs_password;
+	std::string gs_username, gs_password;
 	const char* username, * password;
 	char back_info[256];
 	qusername = ui.lineEdit->text();
