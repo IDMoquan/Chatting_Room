@@ -209,6 +209,7 @@ QPushButton:pressed {
     border-radius: 10px; /* 设置边框圆角为10像素 */
     border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
 	background-color : rgba(0, 0, 0, 100);
+	color : rgb(255, 255, 255);
 }</string>
     </property>
     <widget class="QListWidget" name="listWidget">
@@ -247,6 +248,7 @@ QPushButton:pressed {
     border-radius: 10px; /* 设置边框圆角为10像素 */
     border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
     background-color: transparent; /* 设置背景透明 */
+	color : rgb(255, 255, 255);
 }</string>
     </property>
     <widget class="QListWidget" name="listWidget_2">
