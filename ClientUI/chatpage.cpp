@@ -17,12 +17,22 @@ extern char e_server_ip[256];			//客户端ip
 extern int client_count;
 extern char c_username[256];
 QStringList list, c_list;
-
 extern std::string Utf8ToGbk(const std::string& utf8Str);
+
+struct Q2type {
+	QListWidget* message_list;
+	QLabel* client_count;
+};
 
 //接收在线用户信息线程
 DWORD WINAPI Receive_clients(LPVOID lpThreadParameter) {
-	QListWidget* message_list = (QListWidget*)lpThreadParameter;
+	//if (lpThreadParameter == NULL) {
+	//	MessageBox(NULL, L"服务器断开连接！", NULL, MB_OK);
+	//	return -1;
+	//}
+	struct Q2type data = *(struct Q2type *)lpThreadParameter;
+	QListWidget* message_list = data.message_list;
+	QLabel *label_count = data.client_count;
 	message_list->setSpacing(5);
 	message_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	while (connect_status);
@@ -32,6 +42,7 @@ DWORD WINAPI Receive_clients(LPVOID lpThreadParameter) {
 		c_list.clear();
 		message_list->clear();
 		client_count = charToint(c_client_count);
+		label_count->setText(c_client_count);
 		char info[256] = { 0 };
 		for (int i = 0; i < client_count; i++) {
 			recv(client_socket_c, info, 256, 0);
@@ -50,13 +61,14 @@ DWORD WINAPI Receive_message(LPVOID lpThreadParameter) {
 	while (connect_status);
 	while (1) {
 		char buffer[1024] = { 0 };
+		c_list.clear();
 		int ret = recv(client_socket, buffer, 1024, 0);
 		if (ret <= 0) {
 			MessageBox(NULL, L"服务器断开连接！", NULL, MB_OK);
 			return -1;
 		}
 		list << buffer;
-		message_list->addItem(buffer);
+		message_list->addItems(c_list);
 	}
 	return 0;
 }
@@ -66,8 +78,16 @@ chatpage::chatpage(QWidget* parent)
 {
 	ui.setupUi(this);
 	//创建接收线程
-	CreateThread(NULL, 0, Receive_message, (LPVOID)ui.listWidget, 0, NULL);
-	CreateThread(NULL, 0, Receive_clients, (LPVOID)ui.listWidget_2, 0, NULL);
+	struct Q2type* type = (struct Q2type*)calloc(1, sizeof(struct Q2type));
+	if (type != NULL) {
+		type->message_list = ui.listWidget_2;
+		type->client_count = ui.label_count;
+		CreateThread(NULL, 0, Receive_message, (LPVOID)ui.listWidget, 0, NULL);
+		CreateThread(NULL, 0, Receive_clients, (LPVOID)type, 0, NULL);
+	}
+	else {
+		MessageBox(NULL, L"空指针错误", NULL, MB_OK);
+	}
 }
 
 chatpage::~chatpage()

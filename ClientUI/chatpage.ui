@@ -38,31 +38,13 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>390</y>
+      <x>300</x>
+      <y>430</y>
       <width>333</width>
       <height>75</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="font">
-        <font>
-         <family>微软雅黑</family>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QLabel{
-	background-color:transparent;
-	color : rgb(255, 255, 255);
-}</string>
-       </property>
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#000000;&quot;&gt;在线人数：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -193,8 +175,8 @@ QPushButton:pressed {
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>350</y>
+      <x>20</x>
+      <y>390</y>
       <width>621</width>
       <height>31</height>
      </rect>
@@ -216,8 +198,8 @@ QPushButton:pressed {
    <widget class="QWidget" name="mainwidget" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>0</y>
+      <x>20</x>
+      <y>30</y>
       <width>621</width>
       <height>341</height>
      </rect>
@@ -226,16 +208,16 @@ QPushButton:pressed {
      <string notr="true">QWidget {
     border-radius: 10px; /* 设置边框圆角为10像素 */
     border: 1px solid rgb(85, 255, 255); /* 设置边框颜色和宽度 */
-    background-color: transparent; /* 设置背景透明 */
+	background-color : rgba(0, 0, 0, 100);
 }</string>
     </property>
     <widget class="QListWidget" name="listWidget">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>601</width>
-       <height>321</height>
+       <x>0</x>
+       <y>0</y>
+       <width>621</width>
+       <height>341</height>
       </rect>
      </property>
      <property name="font">
@@ -246,7 +228,7 @@ QPushButton:pressed {
      <property name="styleSheet">
       <string notr="true">QlistWidget{
 	color : rgb(255, 255, 255);
-	background-color : rgba(255, 255, 255, 150);
+	background-color : rgba(0, 0, 0, 100);
 }</string>
      </property>
     </widget>
@@ -255,9 +237,9 @@ QPushButton:pressed {
     <property name="geometry">
      <rect>
       <x>650</x>
-      <y>10</y>
-      <width>81</width>
-      <height>431</height>
+      <y>30</y>
+      <width>101</width>
+      <height>341</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -271,9 +253,9 @@ QPushButton:pressed {
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>0</y>
-       <width>81</width>
-       <height>431</height>
+       <y>40</y>
+       <width>101</width>
+       <height>301</height>
       </rect>
      </property>
      <property name="font">
@@ -281,7 +263,54 @@ QPushButton:pressed {
        <family>微软雅黑</family>
       </font>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QListWidget{
+	background-color : rgba(0, 0, 0, 100)
+}</string>
+     </property>
     </widget>
+   </widget>
+   <widget class="QLabel" name="label_tip">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>30</y>
+      <width>60</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+	background-color:transparent;
+	color : rgb(255, 255, 255);
+}</string>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#000000;&quot;&gt;在线人数：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_count">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>46</y>
+      <width>50</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+	color :rgb(0, 0, 127);
+}</string>
+    </property>
+    <property name="text">
+     <string>null</string>
+    </property>
    </widget>
   </widget>
  </widget>
