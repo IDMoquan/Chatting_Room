@@ -10,14 +10,16 @@
 #pragma comment(lib, "ws2_32.lib")
 
 extern SOCKET client_socket, client_socket_c;	//信息socket、用户socket
-extern std::string Utf8ToGbk(const std::string& utf8Str);	//UTF转GBK
+//extern std::string Utf8ToGbk(const std::string& utf8Str);	//UTF转GBK
 extern int charToint(char* str);	//char转int
 extern bool connect_status;			//连接状态
 extern char e_server_ip[256];			//客户端ip
 extern int client_count;
-extern char c_username[256];
+extern char c_username[1024];
+extern const int username_length = 1024;
+extern const int password_length = 1024;
+extern const int message_length = 1024;
 QStringList list, c_list;
-extern std::string Utf8ToGbk(const std::string& utf8Str);
 
 struct Q2type {
 	QListWidget* message_list;
@@ -43,9 +45,9 @@ DWORD WINAPI Receive_clients(LPVOID lpThreadParameter) {
 		message_list->clear();
 		client_count = charToint(c_client_count);
 		label_count->setText(c_client_count);
-		char info[256] = { 0 };
+		char info[username_length] = { 0 };
 		for (int i = 0; i < client_count; i++) {
-			recv(client_socket_c, info, 256, 0);
+			recv(client_socket_c, info, username_length, 0);
 			c_list.append(info);
 		}
 		QStringListModel* c_listmodel = new QStringListModel(c_list);
@@ -60,15 +62,15 @@ DWORD WINAPI Receive_message(LPVOID lpThreadParameter) {
 	message_list->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	while (connect_status);
 	while (1) {
-		char buffer[1024] = { 0 };
-		c_list.clear();
-		int ret = recv(client_socket, buffer, 1024, 0);
+		char buffer[message_length + username_length + 1] = { 0 };
+		list.clear();
+		int ret = recv(client_socket, buffer, message_length + username_length + 1, 0);
 		if (ret <= 0) {
 			MessageBox(NULL, L"服务器断开连接！", NULL, MB_OK);
 			return -1;
 		}
 		list << buffer;
-		message_list->addItems(c_list);
+		message_list->addItems(list);
 	}
 	return 0;
 }
@@ -104,11 +106,11 @@ void chatpage::sendinfor() {
 	else {
 		const char* messsage = s_message.c_str();
 		//qmessage = c_username + ':' + qmessage;
-		char fin_username[256];
+		char fin_username[username_length + message_length + 1];
 		sprintf(fin_username, "%s:%s", c_username, messsage);
 		list << fin_username;
 		ui.listWidget->addItem(fin_username);
-		::send(client_socket, messsage, 1024, 0);
+		::send(client_socket, messsage, message_length, 0);
 		cleanup();
 	}
 }

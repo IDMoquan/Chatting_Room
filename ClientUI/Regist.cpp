@@ -9,6 +9,10 @@ QString qusername, qpassword;
 std::string s_username, s_password;
 const char* username, * password;
 char back_info[256];
+const int username_length = 1024;
+const int password_length = 1024;
+const int message_length = 1024;
+//extern std::string Utf8ToGbk(const std::string& utf8Str);
 
 Regist::Regist(QWidget *parent)
 	: QWidget(parent)
@@ -40,8 +44,8 @@ void Regist::regist_confirm() {
 	username = s_username.c_str();
 	password = s_password.c_str();
 	//向服务器发送账号密码
-	send(client_socket, username, 256, 0);
-	send(client_socket, password, 256, 0);
+	send(client_socket, username, username_length, 0);
+	send(client_socket, password, password_length, 0);
 	recv(client_socket, back_info, 256, 0);
 	//int wideLength = MultiByteToWideChar(CP_UTF8, 0, back_info, -1, NULL, 0);
 	//wchar_t* wideString = new wchar_t[wideLength];

@@ -10,7 +10,10 @@ bool connect_status = true;
 const char* status = "login";
 int client_count = 0;
 char e_server_ip[256] = { 0 };
-char c_username[256] = { 0 };
+char c_username[1024] = { 0 };
+const int username_length = 1024;
+const int password_length = 1024;
+const int message_length = 1024;
 
 int charToint(char* str) {
 	int res = 0;
@@ -21,23 +24,23 @@ int charToint(char* str) {
 	return res;
 }
 
-std::string Utf8ToGbk(const std::string& utf8Str) {
-	// 首先计算需要的宽字符串长度
-	int wideLength = MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, nullptr, 0);
-	std::vector<wchar_t> wideStr(wideLength);
-
-	// 将UTF-8转换为宽字符串
-	MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, &wideStr[0], wideLength);
-
-	// 计算GBK字符串长度
-	int gbkLength = WideCharToMultiByte(CP_ACP, 0, &wideStr[0], -1, nullptr, 0, nullptr, nullptr);
-	std::vector<char> gbkStr(gbkLength);
-
-	// 将宽字符串转换为GBK字符串
-	WideCharToMultiByte(CP_ACP, 0, &wideStr[0], -1, &gbkStr[0], gbkLength, nullptr, nullptr);
-
-	return std::string(gbkStr.begin(), gbkStr.end() - 1); // 减去末尾的空字符
-}
+//std::string Utf8ToGbk(const std::string& utf8Str) {
+//	// 首先计算需要的宽字符串长度
+//	int wideLength = MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, nullptr, 0);
+//	std::vector<wchar_t> wideStr(wideLength);
+//
+//	// 将UTF-8转换为宽字符串
+//	MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, &wideStr[0], wideLength);
+//
+//	// 计算GBK字符串长度
+//	int gbkLength = WideCharToMultiByte(CP_ACP, 0, &wideStr[0], -1, nullptr, 0, nullptr, nullptr);
+//	std::vector<char> gbkStr(gbkLength);
+//
+//	// 将宽字符串转换为GBK字符串
+//	WideCharToMultiByte(CP_ACP, 0, &wideStr[0], -1, &gbkStr[0], gbkLength, nullptr, nullptr);
+//
+//	return std::string(gbkStr.begin(), gbkStr.end() - 1); // 减去末尾的空字符
+//}
 
 std::string getlocalip() {
 	int ret;
@@ -86,7 +89,7 @@ void Connect_Server::ip_confirmed(){
 		MessageBox(NULL, L"登录失败2！", NULL, MB_OK);
 		return;
 	}
-	send(client_socket, Utf8ToGbk(localip).c_str(), 256, 0);
+	send(client_socket, localip.c_str(), 256, 0);
 	window_login.show();
 	send(client_socket, status, 256, 0);
 	this->close();

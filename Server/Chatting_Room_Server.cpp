@@ -17,12 +17,16 @@ using namespace std;
 //int message_number = 0;        //缓冲区存有消息数量
 bool status1 = true;        //是否有人正在连接
 bool status2 = true;        //是否在发送信息
+const int username_length = 1024;
+const int password_length = 1024;
+const int message_length = 1024;
+
 
 // 存放输入数据
 typedef struct {
     SOCKET socket;
     char* client_ip;
-    char username[256];
+    char username[username_length];
     SOCKET c_socket;
 } Data;
 
@@ -66,9 +70,9 @@ bool userExists(const char* username) {
         return false;
     }
 
-    char line[256];
+    char line[1024];
     while (fgets(line, sizeof(line), file) != NULL) {
-        char storedUsername[256];
+        char storedUsername[username_length];
         int ret = sscanf(line, "%s", storedUsername);
         if (ret != 1) {
             printf("str Error!\n");
@@ -107,8 +111,8 @@ string check_data_login(char* username, char* password) {
 
     char line[256];
     while (fgets(line, sizeof(line), file) != NULL) {
-        char storedUsername[256];
-        char storedPassword[256];
+        char storedUsername[username_length];
+        char storedPassword[password_length];
         int ret = sscanf(line, "%s %s", storedUsername, storedPassword);
         if (ret != 2) {
             printf("str Error!\n");
@@ -157,6 +161,7 @@ DWORD WINAPI Send(LPVOID lpThreadParameter) {
             status1 = false;
             cout << "分发消息至:[";
             for (auto& clt : clients) {
+                //如果是发送者，则跳过
                 if (messages.front().sender_socket == clt.socket) {
                     continue;
                 }
@@ -165,7 +170,7 @@ DWORD WINAPI Send(LPVOID lpThreadParameter) {
                 temp.append(":");
                 temp.append(messages.front().message);
                 while (!status2);
-                send(clt.socket, temp.c_str(), sizeof(temp), 0);
+                send(clt.socket, temp.c_str(), username_length + message_length + 1, 0);
                 cout << clt.socket << " ";
                 //cout << temp;
                 //cout << "send" << endl;
@@ -185,8 +190,8 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
     SOCKET client_socket = data.socket;    //取出socket
     SOCKET c_client_socket = data.c_socket;
     char* client_ip = data.client_ip;        //取出client_ip
-    char* input_username = (char*)malloc(1024 * sizeof(char));
-    char* input_password = (char*)malloc(1024 * sizeof(char));
+    char* input_username = (char*)malloc(username_length * sizeof(char));
+    char* input_password = (char*)malloc(password_length * sizeof(char));
     char* status = (char*)malloc(256 * sizeof(char));
     delete (lpThreadParameter);                //释放内存
     if (status == nullptr) {
@@ -198,7 +203,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
         free(input_username);
         free(input_password);
         free(status);
-        printf("%s已断开！\n", client_ip);
+        printf("%s已断开！\n", utg(client_ip).c_str());
         closesocket(client_socket);
         return -1;
     }
@@ -214,12 +219,12 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     puts("char*类型指针为空！！！");
                     return -1;
                 }
-                ret = recv(client_socket, input_username, 1024, 0);
+                ret = recv(client_socket, input_username, username_length, 0);
                 if (ret <= 0) {
                     free(input_username);
                     free(input_password);
                     free(status);
-                    printf("%s已断开！\n", client_ip);
+                    printf("%s已断开！\n", utg(client_ip).c_str());
                     remove_client(client_socket);
                     closesocket(client_socket);
                     return -1;
@@ -228,17 +233,17 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     strcpy(status, "regist");
                     break;
                 }
-                ret = recv(client_socket, input_password, 1024, 0);
+                ret = recv(client_socket, input_password, password_length, 0);
                 if (ret <= 0) {
                     free(input_username);
                     free(input_password);
                     free(status);
-                    printf("%s已断开！\n", client_ip);
+                    printf("%s已断开！\n", utg(client_ip).c_str());
                     remove_client(client_socket);
                     closesocket(client_socket);
                     return -1;
                 }
-                printf("username:%s\npassword:%s\n", input_username, input_password);
+                printf("username:%s\npassword:%s\n", utg(input_username).c_str(), utg(input_password).c_str());
                 //从数据库检查用户信息
                 string check = check_data_login(input_username, input_password);
                 ret = send(client_socket, check.c_str(), 256, 0);
@@ -246,13 +251,13 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     free(input_username);
                     free(input_password);
                     free(status);
-                    printf("%s已断开！\n", client_ip);
+                    printf("%s已断开！\n", utg(client_ip).c_str());
                     remove_client(client_socket);
                     closesocket(client_socket);
                     return -1;
                 }
                 if (check == "accept") {
-                    printf("%s登录成功！\n", client_ip);
+                    printf("%s登录成功！\n", utg(client_ip).c_str());
                     login_success = true;
                     strcpy(data.username, input_username);
                     char info[256];
@@ -270,7 +275,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     for (int i = 0; i < clients.size(); i++) {
                         for (int j = 0; j < clients.size(); j++) {
                             sprintf(info, "%s", clients[j].username);
-                            send(clients[i].c_socket, info, 256, 0);
+                            send(clients[i].c_socket, info, username_length, 0);
                         }
                     }
                     break;
@@ -289,12 +294,12 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                 puts("char*类型指针为空！！！");
                 return -1;
             }
-            ret = recv(client_socket, input_username, 256, 0);    //接收用户名
+            ret = recv(client_socket, input_username, username_length, 0);    //接收用户名
             if (ret <= 0) {
                 free(input_username);
                 free(input_password);
                 free(status);
-                printf("%s已断开！\n", client_ip);
+                printf("%s已断开！\n", utg(client_ip).c_str());
                 remove_client(client_socket);
                 closesocket(client_socket);
                 return -1;
@@ -304,17 +309,17 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                 strcpy(status, "login");
                 continue;
             }
-            ret = recv(client_socket, input_password, 256, 0);
+            ret = recv(client_socket, input_password, password_length, 0);
             if (ret <= 0) {
                 free(input_username);
                 free(input_password);
                 free(status);
-                printf("%s已断开！\n", client_ip);
+                printf("%s已断开！\n", utg(client_ip).c_str());
                 remove_client(client_socket);
                 closesocket(client_socket);
                 return -1;
             }
-            printf("username:%s\npassword:%s\n", input_username, input_password);
+            printf("username:%s\npassword:%s\n", utg(input_username).c_str(), utg(input_password).c_str());
             //从数据库检查用户信息
             string check = check_data_regist(input_username);
             ret = send(client_socket, check.c_str(), 256, 0);
@@ -322,25 +327,25 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                 free(input_username);
                 free(input_password);
                 free(status);
-                printf("%s已断开！\n", client_ip);
+                printf("%s已断开！\n", utg(client_ip).c_str());
                 remove_client(client_socket);
                 closesocket(client_socket);
                 return -1;
             }
             if (check == "accept") {
-                printf("%s注册成功！用户名：%s\n", client_ip, input_username);
+                printf("%s注册成功！用户名：%s\n", utg(client_ip).c_str(), utg(input_username).c_str());
                 writeUserToDatabase(input_username, input_password);
-                recv(client_socket, input_username, 256, 0);
+                recv(client_socket, input_username, username_length, 0);
                 strcpy(status, "login");
             }
         }
     }
     status1 = true;
-    cout << data.username << "登录！" << endl;
+    cout << utg(data.username) << "登录！" << endl;
     while (true) {
-        char buffer[1024] = { 0 };
+        char buffer[message_length] = { 0 };
         //接收消息
-        int ret = recv(client_socket, buffer, 1024, 0);
+        int ret = recv(client_socket, buffer, message_length, 0);
         if (ret <= 0) {
             break;
         }
@@ -350,13 +355,25 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
         temp.message = buffer;
         temp.sender_socket = client_socket;
         temp.username = data.username;
-        cout << temp.username << "(" << temp.sender_socket << ")" << ":" << utg(temp.message) << endl;
+        cout << utg(temp.username) << "(" << temp.sender_socket << ")" << ":" << utg(temp.message) << endl;
         messages.push(temp);
         status2 = true;
         //while (!status1);
     }
-    printf("%s已断开！\n", client_ip);
+    printf("%s已断开！\n", utg(client_ip).c_str());
     remove_client(client_socket);
+    char info[256] = { 0 };
+    for (int i = 0; i < clients.size(); i++) {
+        char size[256];
+        sprintf(size, "%zu", clients.size());
+        send(clients[i].c_socket, size, 256, 0);
+    }
+    for (int i = 0; i < clients.size(); i++) {
+        for (int j = 0; j < clients.size(); j++) {
+            sprintf(info, "%s", clients[j].username);
+            send(clients[i].c_socket, info, username_length, 0);
+        }
+    }
     closesocket(client_socket);
     return 0;
 }
@@ -430,10 +447,10 @@ int main() {
         }
 
         status1 = false;
-        char client_ip[1024];
+        char client_ip[256];
 
         recv(client_socket, client_ip, 256, 0);
-        printf("%s已连接！\n", client_ip);
+        printf("%s已连接！\n", utg(client_ip).c_str());
         //online_poeple++;
 
         //开辟内存创建Data类型指针并赋值(CreateThread只能传一个参数，包装多参数至结构体)
