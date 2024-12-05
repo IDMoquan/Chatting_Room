@@ -192,7 +192,7 @@ DWORD WINAPI Send(LPVOID lpThreadParameter) {
                 //cout << temp;
                 //cout << "send" << endl;
             }
-            cout << "]" << endl;
+            cout << "\b]" << endl;
             status1 = true;
             messages.pop();
         }

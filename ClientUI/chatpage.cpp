@@ -63,9 +63,9 @@ DWORD WINAPI Receive_message(LPVOID lpThreadParameter) {
 	while (connect_status);
 	while (1) {
 		char buffer[message_length];
-		list.clear();
 		//Sleep(100);
 		int ret = recv(client_socket, buffer, message_length, 0);
+		list.clear();
 		//Sleep(100);
 		if (ret <= 0) {
 			MessageBox(NULL, L"服务器断开连接！", NULL, MB_OK);
@@ -108,11 +108,14 @@ void chatpage::sendinfor() {
 	else {
 		const char* messsage = s_message.c_str();
 		//qmessage = c_username + ':' + qmessage;
+		QListWidgetItem* item;
 		list.clear();
 		char fin_username[username_length + message_length + 1];
 		sprintf(fin_username, "%s:%s", c_username, messsage);
 		list << fin_username;
-		ui.listWidget->addItems(list);
+		item = new QListWidgetItem(fin_username, ui.listWidget);
+		item->setTextAlignment(Qt::AlignRight);
+		ui.listWidget->show();
 		::send(client_socket, messsage, message_length, 0);
 		cleanup();
 	}
