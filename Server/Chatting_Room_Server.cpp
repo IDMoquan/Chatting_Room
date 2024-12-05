@@ -151,11 +151,11 @@ void remove_client(SOCKET target_socket) {
 // 发送线程
 DWORD WINAPI Send(LPVOID lpThreadParameter) {
     while (1) {
-        //for (int i = 0; i < clients.size(); i++) {
-        //    cout << clients[i].client_ip << " ";
-        //}
-        //cout << "end" << endl;
-        //Sleep(1000);
+        /*for (int i = 0; i < clients.size(); i++) {
+            cout << clients[i].client_ip << " ";
+        }
+        cout << "end" << endl;
+        Sleep(1000);*/
         if (!messages.empty()) {
             //向非分发信息的客户端发送消息缓冲池的消息
             status1 = false;
@@ -170,7 +170,7 @@ DWORD WINAPI Send(LPVOID lpThreadParameter) {
                 temp.append(":");
                 temp.append(messages.front().message);
                 while (!status2);
-                send(clt.socket, temp.c_str(), username_length + message_length + 1, 0);
+                send(clt.socket, temp.c_str(), username_length, 0);
                 cout << clt.socket << " ";
                 //cout << temp;
                 //cout << "send" << endl;
