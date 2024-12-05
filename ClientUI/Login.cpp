@@ -1,5 +1,7 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include "Login.h"
+#include <qregularexpression.h>
+#include <qregularexpressionvalidator>
 
 int reg_window_count = 0;	//注册窗口计数
 extern SOCKET client_socket;
@@ -17,6 +19,8 @@ Login::Login(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	ui.lineEdit_2->setValidator(new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9]+$")));
+	ui.lineEdit_2->setEchoMode(QLineEdit::Password);
 	connect(ui.pushButton, SIGNAL(clicked()), this, SLOT(login()));
 	this->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(251,102,102, 200), stop:1 rgba(20,196,188, 210));");//渐变色
 
