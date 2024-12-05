@@ -41,7 +41,7 @@ typedef struct {
 vector<Data> clients;
 queue<Messages> messages;        //发送信息缓冲
 
-string utg(const string& utf8Str) {
+inline string utg(const string& utf8Str) {
     // 首先计算需要的宽字符串长度
     int wideLength = MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, nullptr, 0);
     std::vector<wchar_t> wideStr(wideLength);
