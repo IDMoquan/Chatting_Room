@@ -8,6 +8,8 @@
 #include <queue>
 #include <algorithm>
 #include <Windows.h>
+#include <direct.h>
+#include <io.h>
 #include "ip.h"
 #pragma comment(lib, "ws2_32.lib")
 
@@ -60,11 +62,13 @@ inline string utg(const string& utf8Str) {
 }
 
 // 模拟数据库文件路径，可根据实际情况修改
-const char* DATABASE_FILE = "users.txt";
+const char* DATABASE_DIR = "./.data";
+const char* DATABASE_USER_INFO = "./.data/users.txt";
+const char* DATABASE_MESSAGES = "./.data/messages.txt";
 
 // 检查用户名是否已存在于数据库中
 bool userExists(const char* username) {
-    FILE* file = fopen(DATABASE_FILE, "r");
+    FILE* file = fopen(DATABASE_USER_INFO, "r");
     if (file == NULL) {
         // 如果文件不存在，视为没有重复用户，返回false
         return false;
@@ -91,20 +95,33 @@ bool userExists(const char* username) {
 
 // 将新用户信息写入数据库文件
 void writeUserToDatabase(const char* username, const char* password) {
-    FILE* file = fopen(DATABASE_FILE, "a");
+    FILE* file = fopen(DATABASE_USER_INFO, "a");
     if (file != NULL) {
         fprintf(file, "%s %s\n", username, password);
         fclose(file);
     }
     else {
         // 可添加更完善的错误处理，比如打印错误信息等
-        printf("无法打开数据库文件进行写入操作！\n");
+        printf("无法打开数据库文件进行写入操作！！！错误代码：%d\n", GetLastError());
+    }
+}
+
+//将信息存储到数据库
+void writeMessageToDatabase(const char* message) {
+    FILE* file = fopen(DATABASE_MESSAGES, "a");
+    if (file != NULL) {
+        fprintf(file, "%s\n", message);
+        fclose(file);
+    }
+    else
+    {
+        printf("无法打开数据库文件进行写入操作！！！错误代码：%d\n", GetLastError());
     }
 }
 
 // 登录验证
 string check_data_login(char* username, char* password) {
-    FILE* file = fopen(DATABASE_FILE, "r");
+    FILE* file = fopen(DATABASE_USER_INFO, "r");
     if (file == NULL) {
         return "reject";
     }
@@ -243,7 +260,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     closesocket(client_socket);
                     return -1;
                 }
-                printf("username:%s\npassword:%s\n", utg(input_username).c_str(), utg(input_password).c_str());
+                //printf("username:%s\npassword:%s\n", utg(input_username).c_str(), utg(input_password).c_str());
                 //从数据库检查用户信息
                 string check = check_data_login(input_username, input_password);
                 ret = send(client_socket, check.c_str(), 256, 0);
@@ -257,9 +274,9 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     return -1;
                 }
                 if (check == "accept") {
-                    printf("%s登录成功！\n", utg(client_ip).c_str());
                     login_success = true;
                     strcpy(data.username, input_username);
+                    printf("%s(%s)登录成功！\n", utg(client_ip).c_str(), utg(data.username).c_str());
                     char info[256];
                     //sprintf(info, "%zu", clients.size());
                     //send(c_client_socket, info, 256, 0);
@@ -319,7 +336,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                 closesocket(client_socket);
                 return -1;
             }
-            printf("username:%s\npassword:%s\n", utg(input_username).c_str(), utg(input_password).c_str());
+            //printf("username:%s\npassword:%s\n", utg(input_username).c_str(), utg(input_password).c_str());
             //从数据库检查用户信息
             string check = check_data_regist(input_username);
             ret = send(client_socket, check.c_str(), 256, 0);
@@ -341,7 +358,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
         }
     }
     status1 = true;
-    cout << utg(data.username) << "登录！" << endl;
+    //cout << utg(data.username) << "登录！" << endl;
     while (true) {
         char buffer[message_length] = { 0 };
         //接收消息
@@ -380,6 +397,14 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 
 int main() {
     //system("chcp 65001");
+    //创建数据库文件夹
+    if (_access(DATABASE_DIR, 0) == -1) {
+        int ret = _mkdir(DATABASE_DIR);
+        if (ret != 0) {
+            printf("数据库文件夹创建失败！！！错误代码：%d\n", GetLastError());
+            return -1;
+        }
+    }
     //启动服务
     WSADATA wsaDATA;
     if (WSAStartup(MAKEWORD(2, 2), &wsaDATA) != 0) {
