@@ -2,11 +2,12 @@
 #include "chatpage.h"
 #include "Functions.h"
 #include "Login.h"
-#include<WinSock2.h>
-#include<string>
-#include<Windows.h>
-#include<qlistwidget.h>
-#include<qstringlistmodel.h>
+#include <WinSock2.h>
+#include <iostream>
+#include <string>
+#include <Windows.h>
+#include <qlistwidget.h>
+#include <qstringlistmodel.h>
 #pragma comment(lib, "ws2_32.lib")
 
 extern SOCKET client_socket, client_socket_c;	//信息socket、用户socket
