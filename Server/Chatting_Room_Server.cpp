@@ -315,16 +315,17 @@ DWORD WINAPI Send(LPVOID lpThreadParameter) {
         if (!messages.empty()) {
             //向非分发信息的客户端发送消息缓冲池的消息
             status1 = false;
+            string temp;
+            temp.append(messages.front().username);
+            temp.append(":");
+            temp.append(messages.front().message);
+            writeMessageToDatabase(temp.c_str());
             cout << "\r分发消息至:[ ";
             for (auto& clt : clients) {
                 //如果是发送者，则跳过
                 if (messages.front().sender_socket == clt.socket) {
                     continue;
                 }
-                string temp;
-                temp.append(messages.front().username);
-                temp.append(":");
-                temp.append(messages.front().message);
                 while (!status2);
                 send(clt.socket, temp.c_str(), username_length, 0);
                 cout << clt.socket << " ";
