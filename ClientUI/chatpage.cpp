@@ -82,6 +82,7 @@ chatpage::chatpage(QWidget* parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+	//connect(ui.lineEdit, SIGNAL("returnPressed()"), this, SLOT(sendinfor()));
 	//创建接收线程
 	struct Q2type* type = (struct Q2type*)calloc(1, sizeof(struct Q2type));
 	if (type != NULL) {

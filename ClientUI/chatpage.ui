@@ -328,12 +328,28 @@ QPushButton:pressed {
    <slot>sendinfor()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>285</x>
-     <y>338</y>
+     <x>419</x>
+     <y>451</y>
     </hint>
     <hint type="destinationlabel">
      <x>258</x>
      <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>chatpageClass</receiver>
+   <slot>sendinfor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>330</x>
+     <y>406</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>389</x>
+     <y>266</y>
     </hint>
    </hints>
   </connection>
