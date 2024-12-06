@@ -66,6 +66,7 @@ inline string utg(const string& utf8Str) {
 const char* DATABASE_DIR = "./.data";
 const char* DATABASE_USER_INFO = "./.data/users.txt";
 const char* DATABASE_MESSAGES = "./.data/messages.txt";
+const char* DATABASE_BAN_LIST = "./.data/ban.txt";
 
 // 检查用户名是否已存在于数据库中
 bool userExists(const char* username) {
@@ -126,11 +127,27 @@ void writeMessageToDatabase(const char* message) {
 // 登录验证
 string check_data_login(char* username, char* password) {
     FILE* file = fopen(DATABASE_USER_INFO, "r");
-    if (file == NULL) {
+    FILE* fileb = fopen(DATABASE_BAN_LIST, "r");
+    if (file == NULL || fileb == NULL) {
         return "reject";
     }
 
-    char line[256];
+    char line[username_length];
+    //封禁检测
+    while (fgets(line, username_length, fileb) != NULL) {
+        char storedUsername[username_length];
+        int ret = sscanf(line, "%s", storedUsername);
+        storedUsername[strlen(storedUsername)] = '\0';
+        if (ret <= 0) {
+            printf("\rstr Error!\n");
+            printf("/>");
+            return "reject";
+        }
+        if (!strcmp(storedUsername, username)) {
+            return "ban";
+        }
+    }
+    //账户存在检测
     while (fgets(line, sizeof(line), file) != NULL) {
         char storedUsername[username_length];
         char storedPassword[password_length];
@@ -149,6 +166,7 @@ string check_data_login(char* username, char* password) {
     }
 
     fclose(file);
+    fclose(fileb);
     return "reject";
 }
 
@@ -201,15 +219,57 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
             print_lines(1);
             print("Command instructions:");
             print_lines(1);
-            std::cout <<    "clear : 清屏\n"  <<
+            std::cout <<    "ban [username] : 封禁用户\n" <<
+                            "clear : 清屏\n"  <<
+                            "get   : 获取历史消息\n" <<
                             "help  : 打印帮助列表\n"    <<
+                            "kick [username] : 踢出用户\n" <<
                             "list  : 列出在线用户\n"  <<
                              endl;
             print_lines(1);
             printf("/>");
         }
+        if (command == "ban") {
+            cin >> command;
+            bool success = false;
+            for (auto& clt : clients) {
+                if (clt.username == command) {
+                    FILE* filew = fopen(DATABASE_BAN_LIST, "a+");
+                    if (filew != NULL) {
+                        fprintf(filew, "%s\n", command.c_str());
+                        printf("用户:[ %s ]已被封禁！\n", command.c_str());
+                        success = true;
+                        closesocket(clt.socket);
+                        closesocket(clt.c_socket);
+                        remove_client(clt.socket);
+                        fclose(filew);
+                    }
+                    else {
+                        cout << "数据库文件打开失败！！！" << endl;
+                    }
+                }
+            }
+            if (!success) {
+                printf("未找到用户:[ %s ]！\n", command.c_str());
+                printf("/>");
+            }
+            continue;
+        }
+        if (command == "kick") {
+            cin >> command;
+            for (auto& clt : clients) {
+                if (clt.username == command) {
+                    printf("用户:[ %s ]已被踢出！\n", command.c_str());
+                    closesocket(clt.socket);
+                    closesocket(clt.c_socket);
+                    remove_client(clt.socket);
+                }
+            }
+            printf("/>");
+        }
         if (command == "clear") {
             system("cls");
+            cout << "服务器ip：" << getlocalip() << endl;
             printf("/>");
             continue;
         }
@@ -223,6 +283,10 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
             }
             print_lines(1);
             printf("/>");
+            continue;
+        }
+        if (command == "get") {
+
         }
     }
 }
@@ -365,6 +429,10 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     }
                     break;
                 }
+                else if(check == "ban") {
+                    printf("\r封禁账户:[ %s ]登录失败\n", input_username);
+                    printf("/>");
+                }
             }
             if (login_success) {
                 break;
@@ -466,6 +534,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
         }
     }
     closesocket(client_socket);
+    closesocket(c_client_socket);
     return 0;
 }
 
@@ -479,6 +548,12 @@ int main() {
             return -1;
         }
     }
+    FILE* init_file = fopen(DATABASE_BAN_LIST, "a");
+    fclose(init_file);
+    init_file = fopen(DATABASE_USER_INFO, "a");
+    fclose(init_file);
+    init_file = fopen(DATABASE_MESSAGES, "a");
+    fclose(init_file);
     //启动服务
     WSADATA wsaDATA;
     if (WSAStartup(MAKEWORD(2, 2), &wsaDATA) != 0) {
@@ -534,6 +609,7 @@ int main() {
     }
 
     puts("\r启动listen_socket监听成功！");
+    puts("所有服务启动成功！(输入 help 查看指令列表)");
     cout << "服务器IP：" << getlocalip() << endl;
     printf("/>");
     CreateThread(NULL, 0, Send, NULL, 0, NULL);

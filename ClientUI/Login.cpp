@@ -74,7 +74,10 @@ void Login::login() {
 		connect_status = false;
 		this->close();
 	}
-	else {
-		MessageBox(NULL, L"登录失败！", NULL, MB_OK);
+	else if(!strcmp(back_info, "ban")) {
+		MessageBox(NULL, L"账户被封禁！", NULL, MB_OK);
 	}
+	else if(!strcmp(back_info, "reject")) {
+		MessageBox(NULL, L"账户不存在，请先注册！", NULL, MB_OK);
 	}
+}
