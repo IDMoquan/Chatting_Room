@@ -214,20 +214,27 @@ void print(const char s[]) {
 DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
     std::string command;
     while (1) {
+        char s = getchar();
+        if (s == '\n') {
+            printf("/>");
+            continue;
+        }
         std::cin >> command;
+        command = s + command;
         if (command == "help") {
             print_lines(1);
-            print("Command instructions:");
+            print("服务器指令列表");
             print_lines(1);
             std::cout <<    "ban [username] : 封禁用户\n" <<
-                            "clear : 清屏\n"  <<
+                            "clear : 清屏\n" <<
                             "get   : 获取历史消息\n" <<
-                            "help  : 打印帮助列表\n"    <<
+                            "help  : 打印帮助列表\n" <<
                             "kick [username] : 踢出用户\n" <<
-                            "list  : 列出在线用户\n"  <<
-                             endl;
+                            "list  : 列出在线用户\n";
             print_lines(1);
             printf("/>");
+            getchar();
+            continue;
         }
         if (command == "ban") {
             cin >> command;
@@ -251,8 +258,9 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
             }
             if (!success) {
                 printf("未找到用户:[ %s ]！\n", command.c_str());
-                printf("/>");
             }
+            printf("/>");
+            getchar();
             continue;
         }
         if (command == "kick") {
@@ -266,11 +274,13 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
                 }
             }
             printf("/>");
+            getchar();
         }
         if (command == "clear") {
             system("cls");
             cout << "服务器ip：" << getlocalip() << endl;
             printf("/>");
+            getchar();
             continue;
         }
         if (command == "list") {
@@ -283,11 +293,14 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
             }
             print_lines(1);
             printf("/>");
+            getchar();
             continue;
         }
         if (command == "get") {
-
+            continue;
         }
+        printf("未知指令！输入 help 查看指令列表\n/>");
+        getchar();
     }
 }
 
