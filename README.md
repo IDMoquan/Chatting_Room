@@ -194,5 +194,4 @@ const int line_len = 120;				//DOS窗口宽度
 ### 4.3 聊天
 <details><summary>点击查看图片</summary>
 
-![聊天](.\\Src\\聊天.drawio.png)
-</details>
+>>>>>>>>> Temporary merge branch 2
