@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+﻿﻿#define _CRT_SECURE_NO_WARNINGS
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
@@ -12,6 +12,9 @@
 #include <io.h>
 #include "ip.h"
 #pragma comment(lib, "ws2_32.lib")
+
+// 全局变量，用于存储历史消息列表，方便在不同函数间传递
+std::vector<std::string> g_historyMessages;
 
 using namespace std;
 
@@ -128,6 +131,8 @@ void writeMessageToDatabase(const char* message) {
 string check_data_login(char* username, char* password) {
     FILE* file = fopen(DATABASE_USER_INFO, "r");
     FILE* fileb = fopen(DATABASE_BAN_LIST, "r");
+    // 定义文件指针history_file，并通过fopen以只读方式打开历史消息文件（".data/messages.txt"），若打开失败则返回"reject"
+    FILE* history_file = fopen(DATABASE_MESSAGES, "r");
     if (file == NULL || fileb == NULL) {
         return "reject";
     }
@@ -160,13 +165,22 @@ string check_data_login(char* username, char* password) {
         storedUsername[strlen(storedUsername)] = '\0';
         storedPassword[strlen(storedPassword)] = '\0';
         if (strcmp(username, storedUsername) == 0 && strcmp(password, storedPassword) == 0) {
+            g_historyMessages.clear();  // 先清空全局变量中的历史消息列表（避免之前残留数据影响）
+            char history_line[message_length];
+            // 使用fgets从history_file指向的历史消息文件中逐行读取消息，将每行消息存入g_historyMessages全局向量中
+            while (fgets(history_line, message_length, history_file) != NULL) {
+                g_historyMessages.push_back(history_line);
+            }
+            fclose(history_file);  // 完成历史消息读取后，关闭文件，释放资源
             fclose(file);
+            fclose(fileb);
             return "accept";
         }
     }
 
     fclose(file);
     fclose(fileb);
+    fclose(history_file);
     return "reject";
 }
 
@@ -225,12 +239,12 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
             print_lines(1);
             print("服务器指令列表");
             print_lines(1);
-            std::cout <<    "ban [username]  :  封禁用户\n" <<
-                            "clear           :  清屏\n" <<
-                            "get             :  获取历史消息\n" <<
-                            "help            :  打印帮助列表\n" <<
-                            "kick [username] :  踢出用户\n" <<
-                            "list            :  列出在线用户\n";
+            std::cout << "ban [username]  :  封禁用户\n" <<
+                "clear           :  清屏\n" <<
+                "get             :  获取历史消息\n" <<
+                "help            :  打印帮助列表\n" <<
+                "kick [username] :  踢出用户\n" <<
+                "list            :  列出在线用户\n";
             print_lines(1);
             printf("\r/>");
             getchar();
@@ -423,7 +437,11 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     strcpy(data.username, input_username);
                     printf("\r%s(%s : %zu)登录成功！\n", utg(client_ip).c_str(), utg(data.username).c_str(), data.socket);
                     printf("\r/>");
-                    char info[256];
+                    char info[256];// 发送历史消息给登录成功的客户端
+                    for (const auto& msg : g_historyMessages) {
+                        send(client_socket, msg.c_str(), msg.length(), 0);
+                    }
+                    g_historyMessages.clear();  // 发送完后清空全局变量中的历史消息列表，避免下次使用时出现重复发送等问题
                     //sprintf(info, "%zu", clients.size());
                     //send(c_client_socket, info, 256, 0);
                     free(input_username);
@@ -443,7 +461,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     }
                     break;
                 }
-                else if(check == "ban") {
+                else if (check == "ban") {
                     printf("\r封禁账户:[ %s ]登录失败\n", input_username);
                     printf("\r/>");
                 }
