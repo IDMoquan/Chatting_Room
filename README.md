@@ -282,18 +282,18 @@ DWORD WINAPI Receive_clients(LPVOID lpThreadParameter) {
 
 ## 4. 逻辑思想
 ### 4.1 注册
-![注册](.\\Src\\注册.drawio.png)
+![注册](Src/注册.drawio.png)
 
 ### 4.2 登录
 <details><summary><mark>点击查看图片</mark></summary>
 
-![登录](.\\Src\\登录.drawio.png)
+![登录](Src/登录.drawio.png)
 </details>
 
 ### 4.3 聊天
 <details><summary><mark>点击查看图片</mark></summary>
 
-![聊天](.\\Src\\聊天.drawio.png)
+![聊天](Src/聊天.drawio.png)
 </details>
 
 ---
