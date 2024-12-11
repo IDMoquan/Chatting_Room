@@ -1,4 +1,4 @@
-ï»¿ï»¿#define _CRT_SECURE_NO_WARNINGS
+? #define _CRT_SECURE_NO_WARNINGS
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <stdio.h>
 #include <string.h>
@@ -13,22 +13,22 @@
 #include "ip.h"
 #pragma comment(lib, "ws2_32.lib")
 
-// å…¨å±€å˜é‡ï¼Œç”¨äºå­˜å‚¨å†å²æ¶ˆæ¯åˆ—è¡¨ï¼Œæ–¹ä¾¿åœ¨ä¸åŒå‡½æ•°é—´ä¼ é€’
+// È«¾Ö±äÁ¿£¬ÓÃÓÚ´æ´¢ÀúÊ·ÏûÏ¢ÁĞ±í£¬·½±ãÔÚ²»Í¬º¯Êı¼ä´«µİ
 std::vector<std::string> g_historyMessages;
 
 using namespace std;
 
-//int online_poeple = 0;        //å½“å‰åœ¨çº¿äººæ•°
-//int message_number = 0;        //ç¼“å†²åŒºå­˜æœ‰æ¶ˆæ¯æ•°é‡
-bool status1 = true;        //æ˜¯å¦æœ‰äººæ­£åœ¨è¿æ¥
-bool status2 = true;        //æ˜¯å¦åœ¨å‘é€ä¿¡æ¯
+//int online_poeple = 0;        //µ±Ç°ÔÚÏßÈËÊı
+//int message_number = 0;        //»º³åÇø´æÓĞÏûÏ¢ÊıÁ¿
+bool status1 = true;        //ÊÇ·ñÓĞÈËÕıÔÚÁ¬½Ó
+bool status2 = true;        //ÊÇ·ñÔÚ·¢ËÍĞÅÏ¢
 const int username_length = 1024;
 const int password_length = 1024;
 const int message_length = 1024;
 const int line_len = 120;
 
 
-// å­˜æ”¾è¾“å…¥æ•°æ®
+// ´æ·ÅÊäÈëÊı¾İ
 typedef struct {
     SOCKET socket;
     char* client_ip;
@@ -36,7 +36,7 @@ typedef struct {
     SOCKET c_socket;
 } Data;
 
-// è¾“å…¥ä¿¡æ¯
+// ÊäÈëĞÅÏ¢
 typedef struct {
     SOCKET sender_socket;
     char* client_ip;
@@ -45,37 +45,37 @@ typedef struct {
 } Messages;
 
 vector<Data> clients;
-queue<Messages> messages;        //å‘é€ä¿¡æ¯ç¼“å†²
+queue<Messages> messages;        //·¢ËÍĞÅÏ¢»º³å
 
 inline string utg(const string& utf8Str) {
-    // é¦–å…ˆè®¡ç®—éœ€è¦çš„å®½å­—ç¬¦ä¸²é•¿åº¦
+    // Ê×ÏÈ¼ÆËãĞèÒªµÄ¿í×Ö·û´®³¤¶È
     int wideLength = MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, nullptr, 0);
     std::vector<wchar_t> wideStr(wideLength);
 
-    // å°†UTF-8è½¬æ¢ä¸ºå®½å­—ç¬¦ä¸²
+    // ½«UTF-8×ª»»Îª¿í×Ö·û´®
     MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, &wideStr[0], wideLength);
 
-    // è®¡ç®—GBKå­—ç¬¦ä¸²é•¿åº¦
+    // ¼ÆËãGBK×Ö·û´®³¤¶È
     int gbkLength = WideCharToMultiByte(CP_ACP, 0, &wideStr[0], -1, nullptr, 0, nullptr, nullptr);
     std::vector<char> gbkStr(gbkLength);
 
-    // å°†å®½å­—ç¬¦ä¸²è½¬æ¢ä¸ºGBKå­—ç¬¦ä¸²
+    // ½«¿í×Ö·û´®×ª»»ÎªGBK×Ö·û´®
     WideCharToMultiByte(CP_ACP, 0, &wideStr[0], -1, &gbkStr[0], gbkLength, nullptr, nullptr);
 
-    return string(gbkStr.begin(), gbkStr.end() - 1); // å‡å»æœ«å°¾çš„ç©ºå­—ç¬¦
+    return string(gbkStr.begin(), gbkStr.end() - 1); // ¼õÈ¥Ä©Î²µÄ¿Õ×Ö·û
 }
 
-// æ¨¡æ‹Ÿæ•°æ®åº“æ–‡ä»¶è·¯å¾„ï¼Œå¯æ ¹æ®å®é™…æƒ…å†µä¿®æ”¹
+// Ä£ÄâÊı¾İ¿âÎÄ¼şÂ·¾¶£¬¿É¸ù¾İÊµ¼ÊÇé¿öĞŞ¸Ä
 const char* DATABASE_DIR = "./.data";
 const char* DATABASE_USER_INFO = "./.data/users.txt";
 const char* DATABASE_MESSAGES = "./.data/messages.txt";
 const char* DATABASE_BAN_LIST = "./.data/ban.txt";
 
-// æ£€æŸ¥ç”¨æˆ·åæ˜¯å¦å·²å­˜åœ¨äºæ•°æ®åº“ä¸­
+// ¼ì²éÓÃ»§ÃûÊÇ·ñÒÑ´æÔÚÓÚÊı¾İ¿âÖĞ
 bool userExists(const char* username) {
     FILE* file = fopen(DATABASE_USER_INFO, "r");
     if (file == NULL) {
-        // å¦‚æœæ–‡ä»¶ä¸å­˜åœ¨ï¼Œè§†ä¸ºæ²¡æœ‰é‡å¤ç”¨æˆ·ï¼Œè¿”å›false
+        // Èç¹ûÎÄ¼ş²»´æÔÚ£¬ÊÓÎªÃ»ÓĞÖØ¸´ÓÃ»§£¬·µ»Øfalse
         return false;
     }
 
@@ -99,7 +99,7 @@ bool userExists(const char* username) {
     return false;
 }
 
-// å°†æ–°ç”¨æˆ·ä¿¡æ¯å†™å…¥æ•°æ®åº“æ–‡ä»¶
+// ½«ĞÂÓÃ»§ĞÅÏ¢Ğ´ÈëÊı¾İ¿âÎÄ¼ş
 void writeUserToDatabase(const char* username, const char* password) {
     FILE* file = fopen(DATABASE_USER_INFO, "a");
     if (file != NULL) {
@@ -107,13 +107,13 @@ void writeUserToDatabase(const char* username, const char* password) {
         fclose(file);
     }
     else {
-        // å¯æ·»åŠ æ›´å®Œå–„çš„é”™è¯¯å¤„ç†ï¼Œæ¯”å¦‚æ‰“å°é”™è¯¯ä¿¡æ¯ç­‰
-        printf("\ræ— æ³•æ‰“å¼€æ•°æ®åº“æ–‡ä»¶è¿›è¡Œå†™å…¥æ“ä½œï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
+        // ¿ÉÌí¼Ó¸üÍêÉÆµÄ´íÎó´¦Àí£¬±ÈÈç´òÓ¡´íÎóĞÅÏ¢µÈ
+        printf("\rÎŞ·¨´ò¿ªÊı¾İ¿âÎÄ¼ş½øĞĞĞ´Èë²Ù×÷£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
         printf("\r/>");
     }
 }
 
-//å°†ä¿¡æ¯å­˜å‚¨åˆ°æ•°æ®åº“
+//½«ĞÅÏ¢´æ´¢µ½Êı¾İ¿â
 void writeMessageToDatabase(const char* message) {
     FILE* file = fopen(DATABASE_MESSAGES, "a");
     if (file != NULL) {
@@ -122,23 +122,23 @@ void writeMessageToDatabase(const char* message) {
     }
     else
     {
-        printf("\ræ— æ³•æ‰“å¼€æ•°æ®åº“æ–‡ä»¶è¿›è¡Œå†™å…¥æ“ä½œï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
+        printf("\rÎŞ·¨´ò¿ªÊı¾İ¿âÎÄ¼ş½øĞĞĞ´Èë²Ù×÷£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
         printf("\r/>");
     }
 }
 
-// ç™»å½•éªŒè¯
+// µÇÂ¼ÑéÖ¤
 string check_data_login(char* username, char* password) {
     FILE* file = fopen(DATABASE_USER_INFO, "r");
     FILE* fileb = fopen(DATABASE_BAN_LIST, "r");
-    // å®šä¹‰æ–‡ä»¶æŒ‡é’ˆhistory_fileï¼Œå¹¶é€šè¿‡fopenä»¥åªè¯»æ–¹å¼æ‰“å¼€å†å²æ¶ˆæ¯æ–‡ä»¶ï¼ˆ".data/messages.txt"ï¼‰ï¼Œè‹¥æ‰“å¼€å¤±è´¥åˆ™è¿”å›"reject"
+    // ¶¨ÒåÎÄ¼şÖ¸Õëhistory_file£¬²¢Í¨¹ıfopenÒÔÖ»¶Á·½Ê½´ò¿ªÀúÊ·ÏûÏ¢ÎÄ¼ş£¨".data/messages.txt"£©£¬Èô´ò¿ªÊ§°ÜÔò·µ»Ø"reject"
     FILE* history_file = fopen(DATABASE_MESSAGES, "r");
     if (file == NULL || fileb == NULL) {
         return "reject";
     }
 
     char line[username_length];
-    //å°ç¦æ£€æµ‹
+    //·â½û¼ì²â
     while (fgets(line, username_length, fileb) != NULL) {
         char storedUsername[username_length];
         int ret = sscanf(line, "%s", storedUsername);
@@ -152,7 +152,7 @@ string check_data_login(char* username, char* password) {
             return "ban";
         }
     }
-    //è´¦æˆ·å­˜åœ¨æ£€æµ‹
+    //ÕË»§´æÔÚ¼ì²â
     while (fgets(line, sizeof(line), file) != NULL) {
         char storedUsername[username_length];
         char storedPassword[password_length];
@@ -165,13 +165,13 @@ string check_data_login(char* username, char* password) {
         storedUsername[strlen(storedUsername)] = '\0';
         storedPassword[strlen(storedPassword)] = '\0';
         if (strcmp(username, storedUsername) == 0 && strcmp(password, storedPassword) == 0) {
-            g_historyMessages.clear();  // å…ˆæ¸…ç©ºå…¨å±€å˜é‡ä¸­çš„å†å²æ¶ˆæ¯åˆ—è¡¨ï¼ˆé¿å…ä¹‹å‰æ®‹ç•™æ•°æ®å½±å“ï¼‰
+            g_historyMessages.clear();  // ÏÈÇå¿ÕÈ«¾Ö±äÁ¿ÖĞµÄÀúÊ·ÏûÏ¢ÁĞ±í£¨±ÜÃâÖ®Ç°²ĞÁôÊı¾İÓ°Ïì£©
             char history_line[message_length];
-            // ä½¿ç”¨fgetsä»history_fileæŒ‡å‘çš„å†å²æ¶ˆæ¯æ–‡ä»¶ä¸­é€è¡Œè¯»å–æ¶ˆæ¯ï¼Œå°†æ¯è¡Œæ¶ˆæ¯å­˜å…¥g_historyMessageså…¨å±€å‘é‡ä¸­
+            // Ê¹ÓÃfgets´Óhistory_fileÖ¸ÏòµÄÀúÊ·ÏûÏ¢ÎÄ¼şÖĞÖğĞĞ¶ÁÈ¡ÏûÏ¢£¬½«Ã¿ĞĞÏûÏ¢´æÈëg_historyMessagesÈ«¾ÖÏòÁ¿ÖĞ
             while (fgets(history_line, message_length, history_file) != NULL) {
                 g_historyMessages.push_back(history_line);
             }
-            fclose(history_file);  // å®Œæˆå†å²æ¶ˆæ¯è¯»å–åï¼Œå…³é—­æ–‡ä»¶ï¼Œé‡Šæ”¾èµ„æº
+            fclose(history_file);  // Íê³ÉÀúÊ·ÏûÏ¢¶ÁÈ¡ºó£¬¹Ø±ÕÎÄ¼ş£¬ÊÍ·Å×ÊÔ´
             fclose(file);
             fclose(fileb);
             return "accept";
@@ -184,7 +184,7 @@ string check_data_login(char* username, char* password) {
     return "reject";
 }
 
-// æ³¨å†ŒéªŒè¯
+// ×¢²áÑéÖ¤
 string check_data_regist(char* username) {
     if (userExists(username)) {
         return "reject";
@@ -192,7 +192,7 @@ string check_data_regist(char* username) {
     return "accept";
 }
 
-// ç§»é™¤å®¢æˆ·ç«¯è¿æ¥ç›¸å…³ä¿¡æ¯
+// ÒÆ³ı¿Í»§¶ËÁ¬½ÓÏà¹ØĞÅÏ¢
 void remove_client(SOCKET target_socket) {
     clients.erase(
         remove_if(clients.begin(), clients.end(),
@@ -202,7 +202,7 @@ void remove_client(SOCKET target_socket) {
                 );
 }
 
-/*è¾“å‡ºåˆ†éš”ç¬¦*/
+/*Êä³ö·Ö¸ô·û*/
 void print_lines(int n) {
     printf("\r");
     for (int i = 1; i <= n; i++) {
@@ -213,10 +213,10 @@ void print_lines(int n) {
     }
 }
 
-/*å±…ä¸­è¾“å‡º*/
+/*¾ÓÖĞÊä³ö*/
 void print(const char s[]) {
-    int len = (int)strlen(s);                        //è·å–å­—ç¬¦ä¸²é•¿åº¦
-    int blank = (line_len - len) / 2 - 3;       //è®¡ç®—å‰éƒ¨ç©ºæ ¼æ•°
+    int len = (int)strlen(s);                        //»ñÈ¡×Ö·û´®³¤¶È
+    int blank = (line_len - len) / 2 - 3;       //¼ÆËãÇ°²¿¿Õ¸ñÊı
     printf("\r");
     for (int i = 1; i <= blank; i++) {
         printf(" ");
@@ -224,7 +224,7 @@ void print(const char s[]) {
     printf("%s\n", s);
 }
 
-//æœåŠ¡å™¨æŒ‡ä»¤
+//·şÎñÆ÷Ö¸Áî
 DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
     std::string command;
     while (1) {
@@ -237,14 +237,14 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
         command = s + command;
         if (command == "help") {
             print_lines(1);
-            print("æœåŠ¡å™¨æŒ‡ä»¤åˆ—è¡¨");
+            print("·şÎñÆ÷Ö¸ÁîÁĞ±í");
             print_lines(1);
-            std::cout << "ban [username]  :  å°ç¦ç”¨æˆ·\n" <<
-                "clear           :  æ¸…å±\n" <<
-                "get             :  è·å–å†å²æ¶ˆæ¯\n" <<
-                "help            :  æ‰“å°å¸®åŠ©åˆ—è¡¨\n" <<
-                "kick [username] :  è¸¢å‡ºç”¨æˆ·\n" <<
-                "list            :  åˆ—å‡ºåœ¨çº¿ç”¨æˆ·\n";
+            std::cout << "ban [username]  :  ·â½ûÓÃ»§\n" <<
+                "clear           :  ÇåÆÁ\n" <<
+                "get             :  »ñÈ¡ÀúÊ·ÏûÏ¢\n" <<
+                "help            :  ´òÓ¡°ïÖúÁĞ±í\n" <<
+                "kick [username] :  Ìß³öÓÃ»§\n" <<
+                "list            :  ÁĞ³öÔÚÏßÓÃ»§\n";
             print_lines(1);
             printf("\r/>");
             getchar();
@@ -258,7 +258,7 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
                     FILE* filew = fopen(DATABASE_BAN_LIST, "a+");
                     if (filew != NULL) {
                         fprintf(filew, "%s\n", command.c_str());
-                        printf("ç”¨æˆ·:[ %s ]å·²è¢«å°ç¦ï¼\n", command.c_str());
+                        printf("ÓÃ»§:[ %s ]ÒÑ±»·â½û£¡\n", command.c_str());
                         success = true;
                         closesocket(clt.socket);
                         closesocket(clt.c_socket);
@@ -266,12 +266,12 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
                         fclose(filew);
                     }
                     else {
-                        cout << "æ•°æ®åº“æ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼ï¼ï¼" << endl;
+                        cout << "Êı¾İ¿âÎÄ¼ş´ò¿ªÊ§°Ü£¡£¡£¡" << endl;
                     }
                 }
             }
             if (!success) {
-                printf("æœªæ‰¾åˆ°ç”¨æˆ·:[ %s ]ï¼\n", command.c_str());
+                printf("Î´ÕÒµ½ÓÃ»§:[ %s ]£¡\n", command.c_str());
             }
             printf("\r/>");
             getchar();
@@ -281,7 +281,7 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
             cin >> command;
             for (auto& clt : clients) {
                 if (clt.username == command) {
-                    printf("ç”¨æˆ·:[ %s ]å·²è¢«è¸¢å‡ºï¼\n", command.c_str());
+                    printf("ÓÃ»§:[ %s ]ÒÑ±»Ìß³ö£¡\n", command.c_str());
                     closesocket(clt.socket);
                     closesocket(clt.c_socket);
                     remove_client(clt.socket);
@@ -292,7 +292,7 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
         }
         if (command == "clear") {
             system("cls");
-            cout << "æœåŠ¡å™¨ipï¼š" << getlocalip() << endl;
+            cout << "·şÎñÆ÷ip£º" << getlocalip() << endl;
             printf("\r/>");
             getchar();
             continue;
@@ -300,7 +300,7 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
         if (command == "list") {
             print_lines(1);
             if (clients.size() == 0) {
-                print("æ— åœ¨çº¿ç”¨æˆ·");
+                print("ÎŞÔÚÏßÓÃ»§");
             }
             for (auto& clt : clients) {
                 printf("%s %s %zu\n", utg(clt.client_ip).c_str(), utg(clt.username).c_str(), clt.socket);
@@ -313,12 +313,12 @@ DWORD WINAPI Server_Command(LPVOID lpThreadParameter) {
         if (command == "get") {
             continue;
         }
-        printf("æœªçŸ¥æŒ‡ä»¤ï¼è¾“å…¥ help æŸ¥çœ‹æŒ‡ä»¤åˆ—è¡¨\n/>");
+        printf("Î´ÖªÖ¸Áî£¡ÊäÈë help ²é¿´Ö¸ÁîÁĞ±í\n/>");
         getchar();
     }
 }
 
-// å‘é€çº¿ç¨‹
+// ·¢ËÍÏß³Ì
 DWORD WINAPI Send(LPVOID lpThreadParameter) {
     while (1) {
         /*for (int i = 0; i < clients.size(); i++) {
@@ -327,16 +327,16 @@ DWORD WINAPI Send(LPVOID lpThreadParameter) {
         cout << "end" << endl;
         Sleep(1000);*/
         if (!messages.empty()) {
-            //å‘éåˆ†å‘ä¿¡æ¯çš„å®¢æˆ·ç«¯å‘é€æ¶ˆæ¯ç¼“å†²æ± çš„æ¶ˆæ¯
+            //Ïò·Ç·Ö·¢ĞÅÏ¢µÄ¿Í»§¶Ë·¢ËÍÏûÏ¢»º³å³ØµÄÏûÏ¢
             status1 = false;
             string temp;
             temp.append(messages.front().username);
             temp.append(":");
             temp.append(messages.front().message);
             writeMessageToDatabase(temp.c_str());
-            cout << "\råˆ†å‘æ¶ˆæ¯è‡³:[ ";
+            cout << "\r·Ö·¢ÏûÏ¢ÖÁ:[ ";
             for (auto& clt : clients) {
-                //å¦‚æœæ˜¯å‘é€è€…ï¼Œåˆ™è·³è¿‡
+                //Èç¹ûÊÇ·¢ËÍÕß£¬ÔòÌø¹ı
                 if (messages.front().sender_socket == clt.socket) {
                     continue;
                 }
@@ -355,19 +355,19 @@ DWORD WINAPI Send(LPVOID lpThreadParameter) {
     return 0;
 }
 
-// æ¥å—çº¿ç¨‹
+// ½ÓÊÜÏß³Ì
 DWORD WINAPI Receive(LPVOID lpThreadParameter) {
-    //æ‹†å¼€ç»“æ„ä½“åŒ…è£…
+    //²ğ¿ª½á¹¹Ìå°ü×°
     Data data = *(Data*)lpThreadParameter;
-    SOCKET client_socket = data.socket;    //å–å‡ºsocket
+    SOCKET client_socket = data.socket;    //È¡³ösocket
     SOCKET c_client_socket = data.c_socket;
-    char* client_ip = data.client_ip;        //å–å‡ºclient_ip
+    char* client_ip = data.client_ip;        //È¡³öclient_ip
     char* input_username = (char*)malloc(username_length * sizeof(char));
     char* input_password = (char*)malloc(password_length * sizeof(char));
     char* status = (char*)malloc(256 * sizeof(char));
-    delete (lpThreadParameter);                //é‡Šæ”¾å†…å­˜
+    delete (lpThreadParameter);                //ÊÍ·ÅÄÚ´æ
     if (status == nullptr) {
-        puts("\rchar*ç±»å‹æŒ‡é’ˆä¸ºç©ºï¼ï¼ï¼");
+        puts("\rchar*ÀàĞÍÖ¸ÕëÎª¿Õ£¡£¡£¡");
         return -1;
     }
     int ret = recv(client_socket, status, 256, 0);
@@ -375,13 +375,13 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
         free(input_username);
         free(input_password);
         free(status);
-        printf("\r%så·²æ–­å¼€ï¼\n", utg(client_ip).c_str());
+        printf("\r%sÒÑ¶Ï¿ª£¡\n", utg(client_ip).c_str());
         printf("\r/>");
         closesocket(client_socket);
         return -1;
     }
     while (1) {
-        //loginç™»å½•
+        //loginµÇÂ¼
         if (!strcmp(status, "login")) {
             bool login_success = false;
             for (int i = 1; i <= 5; i++) {
@@ -389,7 +389,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     free(input_username);
                     free(input_password);
                     free(status);
-                    puts("\rchar*ç±»å‹æŒ‡é’ˆä¸ºç©ºï¼ï¼ï¼");
+                    puts("\rchar*ÀàĞÍÖ¸ÕëÎª¿Õ£¡£¡£¡");
                     return -1;
                 }
                 ret = recv(client_socket, input_username, username_length, 0);
@@ -397,7 +397,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     free(input_username);
                     free(input_password);
                     free(status);
-                    printf("\r%så·²æ–­å¼€ï¼\n", utg(client_ip).c_str());
+                    printf("\r%sÒÑ¶Ï¿ª£¡\n", utg(client_ip).c_str());
                     printf("\r/>");
                     remove_client(client_socket);
                     closesocket(client_socket);
@@ -412,21 +412,21 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     free(input_username);
                     free(input_password);
                     free(status);
-                    printf("\r%så·²æ–­å¼€ï¼\n", utg(client_ip).c_str());
+                    printf("\r%sÒÑ¶Ï¿ª£¡\n", utg(client_ip).c_str());
                     printf("\r/>");
                     remove_client(client_socket);
                     closesocket(client_socket);
                     return -1;
                 }
                 //printf("username:%s\npassword:%s\n", utg(input_username).c_str(), utg(input_password).c_str());
-                //ä»æ•°æ®åº“æ£€æŸ¥ç”¨æˆ·ä¿¡æ¯
+                //´ÓÊı¾İ¿â¼ì²éÓÃ»§ĞÅÏ¢
                 string check = check_data_login(input_username, input_password);
                 ret = send(client_socket, check.c_str(), 256, 0);
                 if (ret <= 0) {
                     free(input_username);
                     free(input_password);
                     free(status);
-                    printf("\r%så·²æ–­å¼€ï¼\n", utg(client_ip).c_str());
+                    printf("\r%sÒÑ¶Ï¿ª£¡\n", utg(client_ip).c_str());
                     printf("\r/>");
                     remove_client(client_socket);
                     closesocket(client_socket);
@@ -435,13 +435,13 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                 if (check == "accept") {
                     login_success = true;
                     strcpy(data.username, input_username);
-                    printf("\r%s(%s : %zu)ç™»å½•æˆåŠŸï¼\n", utg(client_ip).c_str(), utg(data.username).c_str(), data.socket);
+                    printf("\r%s(%s : %zu)µÇÂ¼³É¹¦£¡\n", utg(client_ip).c_str(), utg(data.username).c_str(), data.socket);
                     printf("\r/>");
-                    char info[256];// å‘é€å†å²æ¶ˆæ¯ç»™ç™»å½•æˆåŠŸçš„å®¢æˆ·ç«¯
+                    char info[256];// ·¢ËÍÀúÊ·ÏûÏ¢¸øµÇÂ¼³É¹¦µÄ¿Í»§¶Ë
                     for (const auto& msg : g_historyMessages) {
                         send(client_socket, msg.c_str(), msg.length(), 0);
                     }
-                    g_historyMessages.clear();  // å‘é€å®Œåæ¸…ç©ºå…¨å±€å˜é‡ä¸­çš„å†å²æ¶ˆæ¯åˆ—è¡¨ï¼Œé¿å…ä¸‹æ¬¡ä½¿ç”¨æ—¶å‡ºç°é‡å¤å‘é€ç­‰é—®é¢˜
+                    g_historyMessages.clear();  // ·¢ËÍÍêºóÇå¿ÕÈ«¾Ö±äÁ¿ÖĞµÄÀúÊ·ÏûÏ¢ÁĞ±í£¬±ÜÃâÏÂ´ÎÊ¹ÓÃÊ±³öÏÖÖØ¸´·¢ËÍµÈÎÊÌâ
                     //sprintf(info, "%zu", clients.size());
                     //send(c_client_socket, info, 256, 0);
                     free(input_username);
@@ -462,7 +462,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     break;
                 }
                 else if (check == "ban") {
-                    printf("\rå°ç¦è´¦æˆ·:[ %s ]ç™»å½•å¤±è´¥\n", input_username);
+                    printf("\r·â½ûÕË»§:[ %s ]µÇÂ¼Ê§°Ü\n", input_username);
                     printf("\r/>");
                 }
             }
@@ -470,27 +470,27 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                 break;
             }
         }
-        //æ³¨å†Œ
+        //×¢²á
         else {
             if (input_username == nullptr || input_password == nullptr) {
                 free(input_username);
                 free(input_password);
                 free(status);
-                puts("\rchar*ç±»å‹æŒ‡é’ˆä¸ºç©ºï¼ï¼ï¼");
+                puts("\rchar*ÀàĞÍÖ¸ÕëÎª¿Õ£¡£¡£¡");
                 return -1;
             }
-            ret = recv(client_socket, input_username, username_length, 0);    //æ¥æ”¶ç”¨æˆ·å
+            ret = recv(client_socket, input_username, username_length, 0);    //½ÓÊÕÓÃ»§Ãû
             if (ret <= 0) {
                 free(input_username);
                 free(input_password);
                 free(status);
-                printf("\r%så·²æ–­å¼€ï¼\n", utg(client_ip).c_str());
+                printf("\r%sÒÑ¶Ï¿ª£¡\n", utg(client_ip).c_str());
                 printf("\r/>");
                 remove_client(client_socket);
                 closesocket(client_socket);
                 return -1;
             }
-            //æ¥æ”¶åˆ°è¿”å›ç™»å½•çš„æ¶ˆæ¯
+            //½ÓÊÕµ½·µ»ØµÇÂ¼µÄÏûÏ¢
             if (!strcmp(input_username, "login")) {
                 strcpy(status, "login");
                 continue;
@@ -500,28 +500,28 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                 free(input_username);
                 free(input_password);
                 free(status);
-                printf("\r%så·²æ–­å¼€ï¼\n", utg(client_ip).c_str());
+                printf("\r%sÒÑ¶Ï¿ª£¡\n", utg(client_ip).c_str());
                 printf("\r/>");
                 remove_client(client_socket);
                 closesocket(client_socket);
                 return -1;
             }
             //printf("username:%s\npassword:%s\n", utg(input_username).c_str(), utg(input_password).c_str());
-            //ä»æ•°æ®åº“æ£€æŸ¥ç”¨æˆ·ä¿¡æ¯
+            //´ÓÊı¾İ¿â¼ì²éÓÃ»§ĞÅÏ¢
             string check = check_data_regist(input_username);
             ret = send(client_socket, check.c_str(), 256, 0);
             if (ret <= 0) {
                 free(input_username);
                 free(input_password);
                 free(status);
-                printf("\r%så·²æ–­å¼€ï¼\n", utg(client_ip).c_str());
+                printf("\r%sÒÑ¶Ï¿ª£¡\n", utg(client_ip).c_str());
                 printf("\r/>");
                 remove_client(client_socket);
                 closesocket(client_socket);
                 return -1;
             }
             if (check == "accept") {
-                printf("\r%sæ³¨å†ŒæˆåŠŸï¼ç”¨æˆ·åï¼š%s\n", utg(client_ip).c_str(), utg(input_username).c_str());
+                printf("\r%s×¢²á³É¹¦£¡ÓÃ»§Ãû£º%s\n", utg(client_ip).c_str(), utg(input_username).c_str());
                 printf("\r/>");
                 writeUserToDatabase(input_username, input_password);
                 recv(client_socket, input_username, username_length, 0);
@@ -530,10 +530,10 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
         }
     }
     status1 = true;
-    //cout << utg(data.username) << "ç™»å½•ï¼" << endl;
+    //cout << utg(data.username) << "µÇÂ¼£¡" << endl;
     while (true) {
         char buffer[message_length] = { 0 };
-        //æ¥æ”¶æ¶ˆæ¯
+        //½ÓÊÕÏûÏ¢
         int ret = recv(client_socket, buffer, message_length, 0);
         if (ret <= 0) {
             break;
@@ -550,7 +550,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
         status2 = true;
         //while (!status1);
     }
-    printf("\r%så·²æ–­å¼€ï¼\n", utg(client_ip).c_str());
+    printf("\r%sÒÑ¶Ï¿ª£¡\n", utg(client_ip).c_str());
     printf("\r/>");
     remove_client(client_socket);
     char info[256] = { 0 };
@@ -572,11 +572,11 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
 
 int main() {
     //system("chcp 65001");
-    //åˆ›å»ºæ•°æ®åº“æ–‡ä»¶å¤¹
+    //´´½¨Êı¾İ¿âÎÄ¼ş¼Ğ
     if (_access(DATABASE_DIR, 0) == -1) {
         int ret = _mkdir(DATABASE_DIR);
         if (ret != 0) {
-            printf("\ræ•°æ®åº“æ–‡ä»¶å¤¹åˆ›å»ºå¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
+            printf("\rÊı¾İ¿âÎÄ¼ş¼Ğ´´½¨Ê§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
             return -1;
         }
     }
@@ -586,37 +586,37 @@ int main() {
     fclose(init_file);
     init_file = fopen(DATABASE_MESSAGES, "a");
     fclose(init_file);
-    //å¯åŠ¨æœåŠ¡
+    //Æô¶¯·şÎñ
     WSADATA wsaDATA;
     if (WSAStartup(MAKEWORD(2, 2), &wsaDATA) != 0) {
-        printf("\rWSAæœåŠ¡å¯åŠ¨å¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
+        printf("\rWSA·şÎñÆô¶¯Ê§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
         return -1;
     }
 
-    puts("\rWSAæœåŠ¡å¯åŠ¨æˆåŠŸï¼");
+    puts("\rWSA·şÎñÆô¶¯³É¹¦£¡");
 
-    //åˆ›å»ºsocket
+    //´´½¨socket
     SOCKET listen_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (listen_socket == INVALID_SOCKET) {
-        printf("\råˆ›å»ºlisten_socketå¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
+        printf("\r´´½¨listen_socketÊ§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
         return -1;
     }
     SOCKET c_listen_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (c_listen_socket == INVALID_SOCKET) {
-        printf("\råˆ›å»ºlisten_socketå¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
+        printf("\r´´½¨listen_socketÊ§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
         return -1;
     }
 
-    puts("\råˆ›å»ºlisten_socketæˆåŠŸï¼");
+    puts("\r´´½¨listen_socket³É¹¦£¡");
 
-    //è®¾ç½®å±æ€§
+    //ÉèÖÃÊôĞÔ
     struct sockaddr_in local = { 0 };
     local.sin_family = AF_INET;
     local.sin_port = htons(8080);
     local.sin_addr.s_addr = inet_addr("0.0.0.0");
-    //ç»‘å®šç«¯å£
+    //°ó¶¨¶Ë¿Ú
     if (bind(listen_socket, (struct sockaddr*)&local, sizeof(local)) == -1) {
-        printf("\rç»‘å®šSocketå¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
+        printf("\r°ó¶¨SocketÊ§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
         return -1;
     }
 
@@ -625,31 +625,31 @@ int main() {
     local_c.sin_port = htons(8081);
     local_c.sin_addr.s_addr = inet_addr("0.0.0.0");
     if (bind(c_listen_socket, (struct sockaddr*)&local_c, sizeof(local_c)) == -1) {
-        printf("\rç»‘å®šSocketå¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
+        printf("\r°ó¶¨SocketÊ§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
         return -1;
     }
-    puts("\rç»‘å®šSocketæˆåŠŸï¼");
+    puts("\r°ó¶¨Socket³É¹¦£¡");
 
-    //å¯åŠ¨ç›‘å¬
+    //Æô¶¯¼àÌı
     if (listen(listen_socket, 10) == -1) {
-        printf("\rå¯åŠ¨listen_socketç›‘å¬å¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
+        printf("\rÆô¶¯listen_socket¼àÌıÊ§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
         return -1;
     }
     if (listen(c_listen_socket, 10) == -1) {
-        printf("\rå¯åŠ¨listen_socketç›‘å¬å¤±è´¥ï¼ï¼ï¼é”™è¯¯ä»£ç ï¼š%d\n", GetLastError());
+        printf("\rÆô¶¯listen_socket¼àÌıÊ§°Ü£¡£¡£¡´íÎó´úÂë£º%d\n", GetLastError());
         return -1;
     }
 
-    puts("\rå¯åŠ¨listen_socketç›‘å¬æˆåŠŸï¼");
-    puts("æ‰€æœ‰æœåŠ¡å¯åŠ¨æˆåŠŸï¼(è¾“å…¥ help æŸ¥çœ‹æŒ‡ä»¤åˆ—è¡¨)");
-    cout << "æœåŠ¡å™¨IPï¼š" << getlocalip() << endl;
+    puts("\rÆô¶¯listen_socket¼àÌı³É¹¦£¡");
+    puts("ËùÓĞ·şÎñÆô¶¯³É¹¦£¡(ÊäÈë help ²é¿´Ö¸ÁîÁĞ±í)");
+    cout << "·şÎñÆ÷IP£º" << getlocalip() << endl;
     printf("\r/>");
     CreateThread(NULL, 0, Send, NULL, 0, NULL);
     CreateThread(NULL, 0, Server_Command, NULL, 0, NULL);
 
     while (1) {
-        SOCKET client_socket = accept(listen_socket, NULL, NULL);  //é˜»å¡
-        SOCKET c_client_socket = accept(c_listen_socket, NULL, NULL);  //é˜»å¡
+        SOCKET client_socket = accept(listen_socket, NULL, NULL);  //×èÈû
+        SOCKET c_client_socket = accept(c_listen_socket, NULL, NULL);  //×èÈû
 
         if (client_socket == INVALID_SOCKET || c_client_socket == INVALID_SOCKET) {
             continue;
@@ -659,11 +659,11 @@ int main() {
         char client_ip[256];
 
         recv(client_socket, client_ip, 256, 0);
-        printf("\r%så·²è¿æ¥ï¼\n", utg(client_ip).c_str());
+        printf("\r%sÒÑÁ¬½Ó£¡\n", utg(client_ip).c_str());
         printf("\r/>");
         //online_poeple++;
 
-        //å¼€è¾Ÿå†…å­˜åˆ›å»ºDataç±»å‹æŒ‡é’ˆå¹¶èµ‹å€¼(CreateThreadåªèƒ½ä¼ ä¸€ä¸ªå‚æ•°ï¼ŒåŒ…è£…å¤šå‚æ•°è‡³ç»“æ„ä½“)
+        //¿ª±ÙÄÚ´æ´´½¨DataÀàĞÍÖ¸Õë²¢¸³Öµ(CreateThreadÖ»ÄÜ´«Ò»¸ö²ÎÊı£¬°ü×°¶à²ÎÊıÖÁ½á¹¹Ìå)
         Data* data = (Data*)calloc(1, sizeof(Data));
         if (data != NULL) {
             data->client_ip = client_ip;
@@ -671,7 +671,7 @@ int main() {
             data->c_socket = c_client_socket;
             //data->username = zsbd;
 
-            //åˆ›å»ºçº¿ç¨‹
+            //´´½¨Ïß³Ì
             CreateThread(NULL, 0, Receive, (LPVOID)data, 0, NULL);
         }
     }
