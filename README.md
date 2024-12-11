@@ -9,17 +9,19 @@
 		- [1.1 服务端](#11-服务端)
 		- [1.2 客户端](#12-客户端)
 	- [2. 代码组成](#2-代码组成)
-		- [2.1 数据结构](#21-数据结构)
+		- [2.1 包含头文件/库](#21-包含头文件库)
 			- [2.1.1 服务端](#211-服务端)
 			- [2.1.2 客户端](#212-客户端)
-		- [2.2 部分函数介绍](#22-部分函数介绍)
-			- [2.2.1 UTF-8转GBK(通用)](#221-utf-8转gbk通用)
-			- [2.2.2 获取本机ip(通用)](#222-获取本机ip通用)
-			- [2.2.3 验证登录/注册(服务端)](#223-验证登录注册服务端)
-			- [2.2.4 根据Socket删除在线用户(服务端)](#224-根据socket删除在线用户服务端)
-			- [2.2.5 发送输出缓冲区信息至在线用户(服务端)](#225-发送输出缓冲区信息至在线用户服务端)
-			- [2.2.6 接受在线用户信息(客户端)](#226-接受在线用户信息客户端)
-			- [](#)
+		- [2.2 数据结构](#22-数据结构)
+			- [2.2.1 服务端](#221-服务端)
+			- [2.2.2 客户端](#222-客户端)
+		- [2.3 部分函数介绍](#23-部分函数介绍)
+			- [2.3.1 UTF-8转GBK(通用)](#231-utf-8转gbk通用)
+			- [2.3.2 获取本机ip(通用)](#232-获取本机ip通用)
+			- [2.3.3 验证登录/注册(服务端)](#233-验证登录注册服务端)
+			- [2.3.4 根据Socket删除在线用户(服务端)](#234-根据socket删除在线用户服务端)
+			- [2.3.5 发送输出缓冲区信息至在线用户(服务端)](#235-发送输出缓冲区信息至在线用户服务端)
+			- [2.3.6 接受在线用户信息(客户端)](#236-接受在线用户信息客户端)
 	- [3. 主要功能](#3-主要功能)
 		- [3.1 服务端](#31-服务端)
 		- [3.2 客户端](#32-客户端)
@@ -33,18 +35,51 @@
 本程序分为两个组成部分: 服务端&客户端<br>
 ### 1.1 服务端
    - C语言
-   - Winsock2库
+   - 网络基础
 ### 1.2 客户端
    - C\C++语言
-   - Qt库
-   - Winsock2库
+   - Qt窗口开发
+   - 网络基础
 ---
 
 ## 2. 代码组成
 
-### 2.1 数据结构
+### 2.1 包含头文件/库
+#### 2.1.1 服务端
+```
+- stdio.h		//输入输出
+- iostream		//输入输出
+- string.h		//字符串相关
+- winsock2.h	//网络连接
+- vector		//在线用户
+- queue			//消息队列
+- algorithm		//remove_if()函数删除在线用户
+- Windows.h		//创建线程
+- direct.h		//文件夹操作
+- io.h			//文件夹操作
+- ws2_32.lib	//Winsock依赖库
+```
 
-#### 2.1.1 服务端<br>
+#### 2.1.2 客户端
+```
+- stdio.h						//输入输出
+- iostream						//输入输出
+- string						//字符串相关
+- Windows.h						//创建线程
+- winsock2.h					//网络连接
+- qregularexpression			//限制输入格式
+- QRegularExpressionValidator	//限制输入格式
+- QtWidgets/QApplication		//创建QWidget对象
+- qlistwidget.h					//创建QListWidget对象
+- qstringlistmodel.h			//创建QStrigListModel对象
+- ws2_32.lib					//Winsock依赖库
+- cwchar						//宽字符转换
+- cstring						//宽字符转换
+```
+
+### 2.2 数据结构
+
+#### 2.2.1 服务端<br>
 
 ```C
 //存放输入数据
@@ -74,7 +109,7 @@ const int message_length = 1024;		//最大消息长度
 const int line_len = 120;				//DOS窗口宽度
 ```
 
-#### 2.1.2 客户端
+#### 2.2.2 客户端
 
 ```C++
 std::string localip;					//本地ip
@@ -89,8 +124,8 @@ const int message_length = 1024;		//最大消息长度
 const char* status = "login";			//登录界面状态
 ```
 
-### 2.2 部分函数介绍
-#### 2.2.1 UTF-8转GBK(通用)
+### 2.3 部分函数介绍
+#### 2.3.1 UTF-8转GBK(通用)
 <details><summary><mark>点击查看代码</mark></summary>
 
 ```C++
@@ -114,8 +149,8 @@ return string(gbkStr.begin(), gbkStr.end() - 1); // 减去末尾的空字符
 ```
 </details>
 
-#### 2.2.2 获取本机ip(通用)
-<details><summary><mark>点击查看图片</mark></summary>
+#### 2.3.2 获取本机ip(通用)
+<details><summary><mark>点击查看代码</mark></summary>
 
 ```C
 std::string getlocalip() {
@@ -128,16 +163,20 @@ std::string getlocalip() {
 ```
 </details>
 
-#### 2.2.3 验证登录/注册(服务端)
+#### 2.3.3 验证登录/注册(服务端)
 <details><summary><mark>点击查看代码</mark></summary>
 
 ```C++
+// 登录验证
 string check_data_login(char* username, char* password) {
     FILE* file = fopen(DATABASE_USER_INFO, "r");
     FILE* fileb = fopen(DATABASE_BAN_LIST, "r");
+    // 定义文件指针history_file，并通过fopen以只读方式打开历史消息文件（".data/messages.txt"），若打开失败则返回"reject"
+    FILE* history_file = fopen(DATABASE_MESSAGES, "r");
     if (file == NULL || fileb == NULL) {
         return "reject";
     }
+
     char line[username_length];
     //封禁检测
     while (fgets(line, username_length, fileb) != NULL) {
@@ -166,19 +205,28 @@ string check_data_login(char* username, char* password) {
         storedUsername[strlen(storedUsername)] = '\0';
         storedPassword[strlen(storedPassword)] = '\0';
         if (strcmp(username, storedUsername) == 0 && strcmp(password, storedPassword) == 0) {
+            g_historyMessages.clear();  // 先清空全局变量中的历史消息列表（避免之前残留数据影响）
+            char history_line[message_length];
+            // 使用fgets从history_file指向的历史消息文件中逐行读取消息，将每行消息存入g_historyMessages全局向量中
+            while (fgets(history_line, message_length, history_file) != NULL) {
+                g_historyMessages.push_back(history_line);
+            }
+            fclose(history_file);  // 完成历史消息读取后，关闭文件，释放资源
             fclose(file);
+            fclose(fileb);
             return "accept";
         }
     }
 
     fclose(file);
     fclose(fileb);
-return "reject";
+    fclose(history_file);
+    return "reject";
 }
 ```
 </details>
 
-#### 2.2.4 根据Socket删除在线用户(服务端)
+#### 2.3.4 根据Socket删除在线用户(服务端)
 <details><summary><mark>点击查看代码</mark></summary>
 
 ```C++
@@ -194,7 +242,7 @@ void remove_client(SOCKET target_socket) {
 ```
 </details>
 
-#### 2.2.5 发送输出缓冲区信息至在线用户(服务端)
+#### 2.3.5 发送输出缓冲区信息至在线用户(服务端)
 <details><summary><mark>点击查看代码</mark></summary>
 
 ```C
@@ -230,7 +278,7 @@ DWORD WINAPI Send(LPVOID lpThreadParameter) {
 ```
 </details>
 
-#### 2.2.6 接受在线用户信息(客户端)
+#### 2.3.6 接受在线用户信息(客户端)
 <details><summary><mark>点击查看代码</mark></summary>
 
 ```C++
@@ -262,9 +310,8 @@ DWORD WINAPI Receive_clients(LPVOID lpThreadParameter) {
 ```
 </details>
 
-
-####
 ---
+
 ## 3. 主要功能
 ### 3.1 服务端
  1. [x] 存储用户信息
@@ -283,16 +330,19 @@ DWORD WINAPI Receive_clients(LPVOID lpThreadParameter) {
 
 ## 4. 逻辑思想
 ### 4.1 注册
+<details><summary><mark>点击查看流程图</mark></summary>
+
 ![注册](Src/注册.drawio.png)
+</details>
 
 ### 4.2 登录
-<details><summary><mark>点击查看图片</mark></summary>
+<details><summary><mark>点击查看流程图</mark></summary>
 
 ![登录](Src/登录.drawio.png)
 </details>
 
 ### 4.3 聊天
-<details><summary><mark>点击查看图片</mark></summary>
+<details><summary><mark>点击查看流程图</mark></summary>
 
 ![聊天](Src/聊天.drawio.png)
 </details>
