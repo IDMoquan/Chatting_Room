@@ -169,6 +169,7 @@ string check_data_login(char* username, char* password) {
             char history_line[message_length];
             // 使用fgets从history_file指向的历史消息文件中逐行读取消息，将每行消息存入g_historyMessages全局向量中
             while (fgets(history_line, message_length, history_file) != NULL) {
+                history_line[strlen(history_line) - 1] = '\0';
                 g_historyMessages.push_back(history_line);
             }
             fclose(history_file);  // 完成历史消息读取后，关闭文件，释放资源
@@ -439,7 +440,7 @@ DWORD WINAPI Receive(LPVOID lpThreadParameter) {
                     printf("\r/>");
                     char info[256];// 发送历史消息给登录成功的客户端
                     for (const auto& msg : g_historyMessages) {
-                        send(client_socket, msg.c_str(), msg.length(), 0);
+                        send(client_socket, msg.c_str(), message_length, 0);
                     }
                     g_historyMessages.clear();  // 发送完后清空全局变量中的历史消息列表，避免下次使用时出现重复发送等问题
                     //sprintf(info, "%zu", clients.size());

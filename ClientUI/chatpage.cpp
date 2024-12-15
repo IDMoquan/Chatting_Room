@@ -74,6 +74,7 @@ DWORD WINAPI Receive_message(LPVOID lpThreadParameter) {
 		}
 		list << buffer;
 		message_list->addItems(list);
+		message_list->scrollToBottom();
 	}
 	return 0;
 }
@@ -118,6 +119,7 @@ void chatpage::sendinfor() {
 		item = new QListWidgetItem(fin_username, ui.listWidget);
 		item->setTextAlignment(Qt::AlignRight);
 		ui.listWidget->show();
+		ui.listWidget->scrollToBottom();
 		::send(client_socket, messsage, message_length, 0);
 		cleanup();
 	}
